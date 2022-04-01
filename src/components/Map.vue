@@ -5,15 +5,15 @@
         <v-col cols="12" md="4">
           <v-card>
             <v-card-title>
-              <span class="headline">Vehicle Type</span>
+              <span class="headline">Date Traveling</span>
             </v-card-title>
             <v-card-text>
-              <v-switch v-model="atv"  :label="`ATV`"></v-switch>
-              <v-switch v-model="car"  :label="`Car`"></v-switch>
+             <!-- <v-switch v-model="atv"  :label="`ATV`"></v-switch>
+              <v-switch v-model="car"  :label="`Car`"></v-switch>-->
               
               <v-row>
                 <v-col><input type="date" id="date-picker" /></v-col>
-                <v-col>Filter roads by Date</v-col>
+                <v-col></v-col>
                 </v-row>
             </v-card-text>
           </v-card>
@@ -48,10 +48,10 @@
                 :label="`Road Map`"
               ></v-switch> 
               <v-switch
-              disabled
+              
                 v-model="showHarvestLocations"
                 dense
-                :label="`Harvest Locations - Coming Soon`"
+                :label="`Harvest Locations`"
               ></v-switch>
 
             </v-card-text>
@@ -75,8 +75,9 @@
 import esriConfig from "@arcgis/core/config";
 import Map from "@arcgis/core/Map";
 import MapView from "@arcgis/core/views/MapView";
-import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+//import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
+//import MapImage from "@arcgis/core/layers/support/MapImage";
 import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer";
 import Legend from "@arcgis/core/widgets/Legend";
 import Expand from "@arcgis/core/widgets/Expand";
@@ -87,7 +88,7 @@ import Locate from "@arcgis/core/widgets/Locate";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
 
 /* eslint-disable no-unused-vars */
-import * as harvestLayer from "../assets/harvestLocations.js";
+//import * as harvestLayer from "../assets/harvestLocations.js";
 /* eslint-enable no-unused-vars */
 const gravel = {
   type: "simple-line", // autocasts as new SimpleLineSymbol()
@@ -132,7 +133,7 @@ export default {
       showNfsmvum: true,
       showSnowDepth: true,
       showGfp: true,
-      showHarvestLocations: false,
+      showHarvestLocations: true,
       vehicleTypes:['Car','ATV'],
       roadRender: {
         type: "unique-value", // autocasts as new UniqueValueRenderer()
@@ -220,32 +221,36 @@ export default {
       });
       /* eslint-enable no-unused-vars */
 
-      this.nfsmvum = new FeatureLayer({
-        url: "https://apps.fs.usda.gov/fsgisx05/rest/services/wo_nfs_gtac/GTAC_IVMQuery_01/MapServer/1",
+      //this.nfsmvum = new FeatureLayer({
+      //  url: "https://apps.fs.usda.gov/arcx/rest/services/EDW/EDW_MVUM_01/MapServer/1",
+      //  //url: "https://apps.fs.usda.gov/fsgisx05/rest/services/wo_nfs_gtac/GTAC_IVMQuery_01/MapServer/1",
+      //  outFields: ["*"], // Return all fields so it can be queried client-side
+      //  opacity: 0.5,
+      //  renderer: this.roadRender,
+      //});
+      this.nfsmvum = new GeoJSONLayer({
+        url: "./nfsmvum.geojson",
         outFields: ["*"], // Return all fields so it can be queried client-side
         opacity: 0.5,
         renderer: this.roadRender,
-      });
+      })
       this.snowDepth = new MapImageLayer({
         opacity: 0.5,
         url: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/NOHRSC_Snow_Analysis/MapServer",
       });
+      //mapimage in 4.0 is not added to adding to imagelayer :(
+      //this.snowDepthImage = new MapImage({
+      //  url: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/NOHRSC_Snow_Analysis/MapServer/export?dpi=96&transparent=true&format=png32&layers=show:3&bbox=-11718273.723811839,5348624.255024849,-11266683.760703236,5601477.944592091&bboxSR=102100&imageSR=102100&size=1477,827&f=image",
+      //});
+      //this.snowDepth.addImage(this.snowDepthImage);
 
       this.gfp = new VectorTileLayer({
         opacity: 0.5,
         url: "https://tiles.arcgis.com/tiles/jWPBXspaQsJStWX8/arcgis/rest/services/Public_Lands/VectorTileServer",
       });
 
-
-const blob = new Blob([JSON.stringify(harvestLayer.geojson)], {
-  type: "application/json"
-});
-
-const url = URL.createObjectURL(blob);
-
       this.harvestLocations = new GeoJSONLayer({
-        url: url,
-        
+        url: "./harvestLocations.geojson",
       });
 
       this.map.add(this.snowDepth);
@@ -315,7 +320,9 @@ const url = URL.createObjectURL(blob);
     LoadDates() {
       var _this = this;
       fetch(
-        "https://apps.fs.usda.gov/fsgisx05/rest/services/wo_nfs_gtac/GTAC_IVMQuery_01/MapServer/1/query?where=1%3D1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=PASSENGERVEHICLE_DATESOPEN&returnGeometry=false&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=false&returnCountOnly=false&orderByFields=PASSENGERVEHICLE_DATESOPEN&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=true&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeValues=&quantizationParameters=&featureEncoding=esriDefault&f=pjson",
+        //"https://apps.fs.usda.gov/fsgisx05/rest/services/wo_nfs_gtac/GTAC_IVMQuery_01/MapServer/1
+        //https://apps.fs.usda.gov/arcx/rest/services/EDW/EDW_MVUM_01/MapServer/1
+        "https://apps.fs.usda.gov/arcx/rest/services/EDW/EDW_MVUM_01/MapServer/1/query?where=1%3D1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=PASSENGERVEHICLE_DATESOPEN&returnGeometry=false&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=false&returnCountOnly=false&orderByFields=PASSENGERVEHICLE_DATESOPEN&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=true&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeValues=&quantizationParameters=&featureEncoding=esriDefault&f=pjson",
         {
           method: "GET",
         }
