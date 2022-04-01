@@ -2,10 +2,10 @@
   <div>
     <v-container fluid>
       <v-row>
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="6">
           <v-card>
             <v-card-title>
-              <span class="headline">Date Traveling</span>
+              <span class="headline">Road Opening By Date</span>
             </v-card-title>
             <v-card-text>
              <!-- <v-switch v-model="atv"  :label="`ATV`"></v-switch>
@@ -18,7 +18,7 @@
             </v-card-text>
           </v-card>
         </v-col>
-        <v-col  cols="12" md="4">
+        <!-- <v-col  cols="12" md="4">
           <v-card>
             <v-card-title>
               <span class="headline">Road Type</span>
@@ -29,8 +29,8 @@
               </div>
             </v-card-text>
           </v-card>
-        </v-col>
-        <v-col  cols="12" md="4">
+        </v-col> -->
+        <v-col  cols="12" md="6">
           <v-card>
             <v-card-title>
               <span class="headline">Map Layers</span>
@@ -118,6 +118,8 @@ const dirtForCar = {
   style: "solid",
 };
 
+
+
 export default {
   components: {},
   name: "Map",
@@ -195,6 +197,7 @@ export default {
           checked: true,
         },
       ],
+
     };
   },
   mounted() {
@@ -352,8 +355,7 @@ export default {
 
           var d = new Date();
           _this.updateYear(d);
-          var where = _this.buildTypeStatement(d);
-          _this.setFeatureLayerFilter(where);
+          _this.buildTypeStatement(d);
         })
         .catch((error) => {
           throw Error(error);
@@ -376,6 +378,9 @@ export default {
         _this.setFeatureLayerFilter(where);
       });
     },
+    setFeatureLayerFilter(expression) {
+      this.nfsmvum.definitionExpression = expression;
+    },
     AddDatePicker() {
       var _this = this;
 
@@ -393,15 +398,15 @@ export default {
         //update year
         var d = new Date(event.target.value);
         _this.updateYear(d);
-        var where = _this.buildTypeStatement(d);
-        _this.setFeatureLayerFilter(where);
+        _this.buildTypeStatement(d);
       });
       //this.view.ui.add(dp, "top-right");
     },
 
     buildTypeStatement(filterDate) {
       var str = "";
-
+      this.nfsmvum.definitionExpression = str;
+      this.map.remove(this.nfsmvum);
       //TWOWD_GT50INCHES
       //TRACKED_OHV_LT50INCHES
       //TRACKED_OHV_GT50INCHES
@@ -478,8 +483,9 @@ export default {
         //}
         //str += "TRUCK <> 'open'";
       }
-
-      return str;
+      
+      this.nfsmvum.definitionExpression = str;
+      this.map.add(this.nfsmvum);
     },
     buildWhereByType(type, filterDate) {
       var w = "(";
@@ -495,10 +501,6 @@ export default {
       w = w + ")";
       return w;
     },
-    setFeatureLayerFilter(expression) {
-      this.nfsmvum.definitionExpression = expression;
-    },
-
     updateYear(d) {
       this.roadOpenings.forEach((x) => {
         x.StartDate = x.StartDate.slice(0, -4) + d.getFullYear();
@@ -603,6 +605,7 @@ export default {
       }
     },
   },
+ 
 };
 </script>
 
