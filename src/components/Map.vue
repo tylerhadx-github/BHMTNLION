@@ -42,6 +42,11 @@
                 dense
                 :label="`Snow Depth`"
               ></v-switch>
+                         <v-switch
+                v-model="showCachedSnowDepth"
+                dense
+                :label="`Cached Snow Depth`"
+              ></v-switch>
               <v-switch
                 v-model="showNfsmvum"
                 dense
@@ -77,6 +82,9 @@ import Map from "@arcgis/core/Map";
 import MapView from "@arcgis/core/views/MapView";
 //import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
+import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
+import Graphic from "@arcgis/core/Graphic";
+import Point from "@arcgis/core/geometry/Point";
 //import MapImage from "@arcgis/core/layers/support/MapImage";
 import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer";
 import Legend from "@arcgis/core/widgets/Legend";
@@ -130,10 +138,12 @@ export default {
       view: null,
       nfsmvum: null,
       snowDepth: null,
+      graphicLayer: null,
       gfp: null,
       harvestLocations: null,
       showNfsmvum: true,
       showSnowDepth: true,
+      showCachedSnowDepth: true,
       showGfp: true,
       showHarvestLocations: true,
       vehicleTypes:['Car','ATV'],
@@ -197,7 +207,13 @@ export default {
           checked: true,
         },
       ],
-
+      markerExtent : {
+   xmin: 1.1713368533619583,
+   xmax: -1.1261778570510978,
+   ymin: 5349926.441082417,
+   ymax: 5602780.130649659
+},
+imageUrl: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/NOHRSC_Snow_Analysis/MapServer/export?dpi=96&transparent=true&format=png32&layers=show%3A1%2C2%2C3%2C5%2C6%2C7&bbox=-11713368.533619583%2C5349926.441082417%2C-11261778.57051098%2C5602780.130649659&bboxSR=102100&imageSR=102100&size=1477%2C827&f=image"
     };
   },
   mounted() {
@@ -241,11 +257,31 @@ export default {
         opacity: 0.5,
         url: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/NOHRSC_Snow_Analysis/MapServer",
       });
-      //mapimage in 4.0 is not added to adding to imagelayer :(
-      //this.snowDepthImage = new MapImage({
-      //  url: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/NOHRSC_Snow_Analysis/MapServer/export?dpi=96&transparent=true&format=png32&layers=show:3&bbox=-11718273.723811839,5348624.255024849,-11266683.760703236,5601477.944592091&bboxSR=102100&imageSR=102100&size=1477,827&f=image",
-      //});
-      //this.snowDepth.addImage(this.snowDepthImage);
+
+const point = new Point ({
+   x: -103.19455082423462,
+   y: 44.070438441736194
+});
+
+
+const symbolMarker = { 
+   type: "picture-marker",
+   url: this.imageUrl,
+   width: 1477,
+   height: 827
+};
+const graphicPoint = new Graphic({
+   geometry: point,
+   symbol: symbolMarker
+});
+      this.graphicLayer = new GraphicsLayer({
+          graphics: [graphicPoint],
+        opacity: 0.5,
+
+      });
+
+
+
 
       this.gfp = new VectorTileLayer({
         opacity: 0.5,
@@ -260,7 +296,7 @@ export default {
       this.map.add(this.gfp);
       this.map.add(this.nfsmvum);
       this.map.add(this.harvestLocations);
-
+      this.map.add(this.graphicLayer);
       this.AddFilterButton();
       this.AddDatePicker();
 
@@ -319,6 +355,12 @@ export default {
       if (!component.isMobile()) {
         this.view.ui.add(legend, "bottom-left");
       }
+      var _this = this;
+      this.view.watch("stationary", (newValue) => {
+      if (newValue == true) { 
+        _this.adjustMarker();
+      }
+    });
     },
     LoadDates() {
       var _this = this;
@@ -361,7 +403,30 @@ export default {
           throw Error(error);
         });
     },
-
+adjustMarker() {
+   const topRightScreenPt = this.view.toScreen({ 
+      x: this.markerExtent.xmax, 
+      y: this.markerExtent.ymax, 
+      spatialReference:{
+         wkid: 4326
+      }
+   });
+   const bottomLeftScreenPt = this.view.toScreen({ 
+      x: this.markerExtent.xmin, 
+      y: this.markerExtent.ymin, 
+      spatialReference:{
+         wkid: 4326
+      }
+   });
+   const newWidth = Math.abs(topRightScreenPt.x - bottomLeftScreenPt.x);
+   const newHeight = Math.abs(bottomLeftScreenPt.y - topRightScreenPt.y);
+   this.graphicLayer.graphics.items[0].symbol = { 
+      type: "picture-marker",
+      url: this.imageUrl,
+      width: newWidth > 0 ? newWidth : 1,
+      height:  newHeight > 0 ? newHeight : 827
+   };
+},
     AddFilterButton() {
       var _this = this;
       var btn = document.getElementById("filterButton");
@@ -601,6 +666,15 @@ export default {
         return true;
       } else {
         this.map.remove(this.harvestLocations);
+        return false;
+      }
+    },
+    showCachedSnowDepth(){
+      if (this.showCachedSnowDepth && this.map != null) {
+        this.map.add(this.graphicLayer);
+        return true;
+      } else {
+        this.map.remove(this.graphicLayer);
         return false;
       }
     },
