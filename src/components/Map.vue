@@ -2,38 +2,11 @@
   <div>
     <v-container fluid>
       <v-row>
-        <v-col cols="12" md="6">
+      
+        <v-col >
           <v-card>
             <v-card-title>
-              <span class="headline">Road Opening By Date</span>
-            </v-card-title>
-            <v-card-text>
-              <!-- <v-switch v-model="atv"  :label="`ATV`"></v-switch>
-              <v-switch v-model="car"  :label="`Car`"></v-switch>-->
-
-              <v-row>
-                <v-col><input type="date" id="date-picker" /></v-col>
-                <v-col></v-col>
-              </v-row>
-            </v-card-text>
-          </v-card>
-        </v-col>
-        <!-- <v-col  cols="12" md="4">
-          <v-card>
-            <v-card-title>
-              <span class="headline">Road Type</span>
-            </v-card-title>
-            <v-card-text>
-              <div v-for="r in roadType" :key="r.value">
-                <v-switch v-model="r.checked" :label="r.text"></v-switch>
-              </div>
-            </v-card-text>
-          </v-card>
-        </v-col> -->
-        <v-col cols="12" md="6">
-          <v-card>
-            <v-card-title>
-              <span class="headline">Map Layers</span>
+              <span class="headline">Map Filters</span>
             </v-card-title>
             <v-card-text>
               <v-switch v-model="showGfp" dense :label="`GFP`"></v-switch>
@@ -47,11 +20,19 @@
                 dense
                 :label="`Cached Snow Depth`"
               ></v-switch> -->
-              <v-switch
-                v-model="showNfsmvum"
-                dense
-                :label="`Road Map`"
-              ></v-switch>
+              <v-row>
+                <v-col>
+                  <v-switch
+                    v-model="showNfsmvum"
+                    dense
+                    :label="`Road Map`"
+                  ></v-switch>
+                </v-col>
+                <v-col>
+                  <input type="date" id="date-picker" />
+                </v-col>
+                <v-col></v-col>
+              </v-row>
               <v-row>
                 <v-col>
                   <v-switch
@@ -60,11 +41,17 @@
                     :label="`Harvest Locations`"
                   ></v-switch>
                 </v-col>
+
+                <v-col>
+                  <v-autocomplete
+                    v-model="selectedYears"
+                    :items="years"
+                    :multiple="true"
+                    label="Years"
+                  ></v-autocomplete>
+                </v-col>
                 <v-col>
                   <v-switch v-model="showHeatmap" label="Heatmap"></v-switch>
-                </v-col>
-                 <v-col>
-                  <v-autocomplete v-model="selectedYears" :items="years" :multiple="true" label="Years"></v-autocomplete>
                 </v-col>
               </v-row>
             </v-card-text>
@@ -218,8 +205,8 @@ export default {
         },
       ],
 
-      years:[2016,2015,2014,2013,2012],//,2017,2018,2019,2020
-      selectedYears: [2016,2015,2014,2013,2012],
+      years: [2016, 2015, 2014, 2013, 2012], //,2017,2018,2019,2020
+      selectedYears: [2016, 2015, 2014, 2013, 2012],
       markerExtent: {
         xmin: 1.1713368533619583,
         xmax: -1.1261778570510978,
@@ -228,43 +215,35 @@ export default {
       },
       imageUrl:
         "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/NOHRSC_Snow_Analysis/MapServer/export?dpi=96&transparent=true&format=png32&layers=show%3A1%2C2%2C3%2C5%2C6%2C7&bbox=-11713368.533619583%2C5349926.441082417%2C-11261778.57051098%2C5602780.130649659&bboxSR=102100&imageSR=102100&size=1477%2C827&f=image",
-        renderer: {
-  type: "heatmap",
-  colorStops: [
-    { color: "rgba(63, 40, 102, 0)", ratio: 0 },
-    { color: "#472b77", ratio: 0.083 },
-    { color: "#4e2d87", ratio: 0.166 },
-    { color: "#563098", ratio: 0.249 },
-    { color: "#5d32a8", ratio: 0.332 },
-    { color: "#6735be", ratio: 0.415 },
-    { color: "#7139d4", ratio: 0.498 },
-    { color: "#7b3ce9", ratio: 0.581 },
-    { color: "#853fff", ratio: 0.664 },
-    { color: "#a46fbf", ratio: 0.747 },
-    { color: "#c29f80", ratio: 0.83 },
-    { color: "#e0cf40", ratio: 0.913 },
-    { color: "#ffff00", ratio: 1 }
-  ],
-  maxPixelIntensity: 25,
-  minPixelIntensity: 0
-},
-
+      renderer: {
+        type: "heatmap",
+        colorStops: [
+          { color: "rgba(63, 40, 102, 0)", ratio: 0 },
+          { color: "#472b77", ratio: 0.083 },
+          { color: "#4e2d87", ratio: 0.166 },
+          { color: "#563098", ratio: 0.249 },
+          { color: "#5d32a8", ratio: 0.332 },
+          { color: "#6735be", ratio: 0.415 },
+          { color: "#7139d4", ratio: 0.498 },
+          { color: "#7b3ce9", ratio: 0.581 },
+          { color: "#853fff", ratio: 0.664 },
+          { color: "#a46fbf", ratio: 0.747 },
+          { color: "#c29f80", ratio: 0.83 },
+          { color: "#e0cf40", ratio: 0.913 },
+          { color: "#ffff00", ratio: 1 },
+        ],
+        maxPixelIntensity: 25,
+        minPixelIntensity: 0,
+      },
       simplerRenderer: {
         type: "simple",
-          symbol: {
-        type: "picture-marker",
-        url: "/mtl.png",
-        width: 8,
-        height: 4,
-      }
-        }
-// simplerRenderer: new SimpleRenderer({
-//           symbol: new SimpleMarkerSymbol({
-//             size: 4,
-//             color: [0, 255, 255],
-//             outline: null
-//           })
-//         })
+        symbol: {
+          type: "picture-marker",
+          url: "mtl.png",
+          width: 8,
+          height: 4,
+        },
+      },
     };
   },
   mounted() {
@@ -726,26 +705,24 @@ export default {
         return false;
       }
     },
-    showHeatmap(){
+    showHeatmap() {
       if (this.showHeatmap && this.map != null) {
-        
-this.harvestLocations.renderer= this.renderer;
-      }else{
-        this.harvestLocations.renderer=this.simplerRenderer;
+        this.harvestLocations.renderer = this.renderer;
+      } else {
+        this.harvestLocations.renderer = this.simplerRenderer;
       }
     },
     selectedYears() {
-      var buildcsv ="(";
-      this.selectedYears.forEach((x,i) => {
-        if(i!==0){
+      var buildcsv = "(";
+      this.selectedYears.forEach((x, i) => {
+        if (i !== 0) {
           buildcsv += " or ";
         }
         buildcsv += "Year = '" + x + "'";
       });
       buildcsv += ")";
-      this.harvestLocations.definitionExpression = buildcsv;// "( Year in (" + buildcsv.substring(0,buildcsv.length -1)+ ")";
+      this.harvestLocations.definitionExpression = buildcsv; // "( Year in (" + buildcsv.substring(0,buildcsv.length -1)+ ")";
     },
-    
   },
 };
 </script>
