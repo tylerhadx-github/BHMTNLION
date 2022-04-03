@@ -2,8 +2,7 @@
   <div>
     <v-container fluid>
       <v-row>
-      
-        <v-col >
+        <v-col>
           <v-card>
             <v-card-title>
               <span class="headline">Map Filters</span>
@@ -15,11 +14,18 @@
                 dense
                 :label="`Snow Depth`"
               ></v-switch>
-              <!-- <v-switch
+              <v-row>
+                <v-col>
+              <v-switch
                 v-model="showCachedSnowDepth"
                 dense
                 :label="`Cached Snow Depth`"
-              ></v-switch> -->
+              ></v-switch>
+              </v-col>
+              <v-col>
+                {{snowDepthDate}}
+              </v-col>
+              </v-row>
               <v-row>
                 <v-col>
                   <v-switch
@@ -44,7 +50,7 @@
 
                 <v-col>
                   <v-autocomplete
-                  v-if="showHarvestLocations"
+                    v-if="showHarvestLocations"
                     v-model="selectedYears"
                     :items="years"
                     :multiple="true"
@@ -52,7 +58,11 @@
                   ></v-autocomplete>
                 </v-col>
                 <v-col>
-                  <v-switch v-if="showHarvestLocations" v-model="showHeatmap" label="Heatmap"></v-switch>
+                  <v-switch
+                    v-if="showHarvestLocations"
+                    v-model="showHeatmap"
+                    label="Heatmap"
+                  ></v-switch>
                 </v-col>
               </v-row>
             </v-card-text>
@@ -63,7 +73,6 @@
 
     <v-progress-linear indeterminate v-if="loading"></v-progress-linear>
     <input type="button" id="filterButton" value="Apply Above Filters" />
-
     <div
       id="viewDiv"
       :width="'100%'"
@@ -87,6 +96,7 @@ import Search from "@arcgis/core/widgets/Search";
 import BasemapGallery from "@arcgis/core/widgets/BasemapGallery";
 import Locate from "@arcgis/core/widgets/Locate";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
+
 //import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
 //import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
 
@@ -140,7 +150,7 @@ export default {
       harvestLocations: null,
       showNfsmvum: true,
       showSnowDepth: true,
-      showCachedSnowDepth: false,
+      showCachedSnowDepth: true,
       showGfp: true,
       showHarvestLocations: true,
       vehicleTypes: ["Car", "ATV"],
@@ -205,17 +215,17 @@ export default {
           checked: true,
         },
       ],
-
+      snowDepthDate: null,
       years: [2016, 2015, 2014, 2013, 2012], //,2017,2018,2019,2020
       selectedYears: [2016, 2015, 2014, 2013, 2012],
       markerExtent: {
-        xmin: 1.1713368533619583,
-        xmax: -1.1261778570510978,
-        ymin: 5349926.441082417,
-        ymax: 5602780.130649659,
+        xmin: -105.2229798227514,
+        xmax: -101.16627816259711,
+        ymin: 42.929128673950856,
+        ymax: 45.20055201379351,
       },
       imageUrl:
-        "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/NOHRSC_Snow_Analysis/MapServer/export?dpi=96&transparent=true&format=png32&layers=show%3A1%2C2%2C3%2C5%2C6%2C7&bbox=-11713368.533619583%2C5349926.441082417%2C-11261778.57051098%2C5602780.130649659&bboxSR=102100&imageSR=102100&size=1477%2C827&f=image",
+        "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/NOHRSC_Snow_Analysis/MapServer/export?dpi=96&transparent=true&format=png32&layers=show%3A1%2C2%2C3%2C5%2C6%2C7&bbox=-11713368.533619583%2C5349926.441082417%2C-11261778.57051098%2C5602780.130649659&bboxSR=102100&imageSR=4326&size=1477%2C827&f=image",
       renderer: {
         type: "heatmap",
         colorStops: [
@@ -250,6 +260,7 @@ export default {
   mounted() {
     this.LoadDates();
     this.LoadData();
+    this.cacheSnowDepth();
   },
   methods: {
     LoadData() {
@@ -293,10 +304,15 @@ export default {
         x: -103.19455082423462,
         y: 44.070438441736194,
       });
+      var useImage = false;
+      if (localStorage.getItem("snowDepthImage")) {
+        var snowImageBase64 = localStorage.getItem("snowDepthImage");
+        useImage = true;
+      }
 
       const symbolMarker = {
         type: "picture-marker",
-        url: this.imageUrl,
+        url: useImage ? snowImageBase64 : this.imageUrl,
         width: 1477,
         height: 827,
       };
@@ -321,7 +337,7 @@ export default {
 
       this.map.add(this.gfp);
       this.map.add(this.snowDepth);
-      //this.map.add(this.graphicLayer);
+      this.map.add(this.graphicLayer);
       this.map.add(this.nfsmvum);
       this.map.add(this.harvestLocations);
 
@@ -451,8 +467,8 @@ export default {
       this.graphicLayer.graphics.items[0].symbol = {
         type: "picture-marker",
         url: this.imageUrl,
-        width: newWidth > 0 ? newWidth : 1,
-        height: newHeight > 0 ? newHeight : 827,
+        width: newWidth > 0 ? newWidth + "px" : 1,
+        height: newHeight > 0 ? newHeight + "px" : 1,
       };
     },
     AddFilterButton() {
@@ -650,6 +666,42 @@ export default {
                                 <br><b>Road Type: {SURFACETYPE}</b> \
                                 <br><b>SBS_SYMBOL_NAME: {SBS_SYMBOL_NAME}</b> \
                                 <br><b>Difficulty: {OPERATIONALMAINTLEVEL}</b><br>";
+    },
+    cacheSnowDepth() {
+      if (localStorage.getItem("snowDepthDate")) {
+        this.snowDepthDate = localStorage.getItem("snowDepthDate");
+      } else {
+        const today = new Date();
+        const yesterday = new Date(today);
+
+        yesterday.setDate(yesterday.getDate() - 1);
+        this.snowDepthDate = yesterday;
+      }
+
+      if (!this.isToday(this.snowDepthDate)) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const base64data = reader.result;
+          localStorage.setItem("snowDepthImage", base64data);
+          localStorage.setItem("snowDepthDate", new Date());
+
+          console.log(base64data);
+        };
+
+        (async () => {
+          const response = await fetch(this.imageUrl);
+          const imageBlob = await response.blob();
+          reader.readAsDataURL(imageBlob);
+        })();
+      }
+    },
+    isToday(dateParameter) {
+      var today = new Date();
+      return (
+        dateParameter.getDate() === today.getDate() &&
+        dateParameter.getMonth() === today.getMonth() &&
+        dateParameter.getFullYear() === today.getFullYear()
+      );
     },
   },
   watch: {
