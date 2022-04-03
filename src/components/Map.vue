@@ -697,6 +697,7 @@ export default {
     },
     isToday(dateParameter) {
       var today = new Date();
+      dateParameter = new Date(dateParameter);
       return (
         dateParameter.getDate() === today.getDate() &&
         dateParameter.getMonth() === today.getMonth() &&
