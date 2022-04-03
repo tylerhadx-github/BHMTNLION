@@ -8,13 +8,13 @@
               <span class="headline">Road Opening By Date</span>
             </v-card-title>
             <v-card-text>
-             <!-- <v-switch v-model="atv"  :label="`ATV`"></v-switch>
+              <!-- <v-switch v-model="atv"  :label="`ATV`"></v-switch>
               <v-switch v-model="car"  :label="`Car`"></v-switch>-->
-              
+
               <v-row>
                 <v-col><input type="date" id="date-picker" /></v-col>
                 <v-col></v-col>
-                </v-row>
+              </v-row>
             </v-card-text>
           </v-card>
         </v-col>
@@ -30,7 +30,7 @@
             </v-card-text>
           </v-card>
         </v-col> -->
-        <v-col  cols="12" md="6">
+        <v-col cols="12" md="6">
           <v-card>
             <v-card-title>
               <span class="headline">Map Layers</span>
@@ -42,23 +42,31 @@
                 dense
                 :label="`Snow Depth`"
               ></v-switch>
-                         <v-switch
+              <!-- <v-switch
                 v-model="showCachedSnowDepth"
                 dense
                 :label="`Cached Snow Depth`"
-              ></v-switch>
+              ></v-switch> -->
               <v-switch
                 v-model="showNfsmvum"
                 dense
                 :label="`Road Map`"
-              ></v-switch> 
-              <v-switch
-              
-                v-model="showHarvestLocations"
-                dense
-                :label="`Harvest Locations`"
               ></v-switch>
-
+              <v-row>
+                <v-col>
+                  <v-switch
+                    v-model="showHarvestLocations"
+                    dense
+                    :label="`Harvest Locations`"
+                  ></v-switch>
+                </v-col>
+                <v-col>
+                  <v-switch v-model="showHeatmap" label="Heatmap"></v-switch>
+                </v-col>
+                 <v-col>
+                  <v-autocomplete v-model="selectedYears" :items="years" :multiple="true" label="Years"></v-autocomplete>
+                </v-col>
+              </v-row>
             </v-card-text>
           </v-card>
         </v-col>
@@ -67,7 +75,7 @@
 
     <v-progress-linear indeterminate v-if="loading"></v-progress-linear>
     <input type="button" id="filterButton" value="Apply Above Filters" />
-    
+
     <div
       id="viewDiv"
       :width="'100%'"
@@ -80,21 +88,24 @@
 import esriConfig from "@arcgis/core/config";
 import Map from "@arcgis/core/Map";
 import MapView from "@arcgis/core/views/MapView";
-//import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
 import MapImageLayer from "@arcgis/core/layers/MapImageLayer";
 import GraphicsLayer from "@arcgis/core/layers/GraphicsLayer";
 import Graphic from "@arcgis/core/Graphic";
 import Point from "@arcgis/core/geometry/Point";
-//import MapImage from "@arcgis/core/layers/support/MapImage";
 import VectorTileLayer from "@arcgis/core/layers/VectorTileLayer";
 import Legend from "@arcgis/core/widgets/Legend";
 import Expand from "@arcgis/core/widgets/Expand";
 import Search from "@arcgis/core/widgets/Search";
 import BasemapGallery from "@arcgis/core/widgets/BasemapGallery";
 import Locate from "@arcgis/core/widgets/Locate";
-//import DatePicker from "@arcgis/core/widgets/support/DatePicker";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
+//import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
+//import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
 
+//import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
+//import MapImage from "@arcgis/core/layers/support/MapImage";
+//import DatePicker from "@arcgis/core/widgets/support/DatePicker";
+//import * as heatmapRendererCreator from "@arcgis/core/smartMapping/renderers/heatmap";
 /* eslint-disable no-unused-vars */
 //import * as harvestLayer from "../assets/harvestLocations.js";
 /* eslint-enable no-unused-vars */
@@ -126,8 +137,6 @@ const dirtForCar = {
   style: "solid",
 };
 
-
-
 export default {
   components: {},
   name: "Map",
@@ -143,10 +152,10 @@ export default {
       harvestLocations: null,
       showNfsmvum: true,
       showSnowDepth: true,
-      showCachedSnowDepth: true,
+      showCachedSnowDepth: false,
       showGfp: true,
       showHarvestLocations: true,
-      vehicleTypes:['Car','ATV'],
+      vehicleTypes: ["Car", "ATV"],
       roadRender: {
         type: "unique-value", // autocasts as new UniqueValueRenderer()
         legendOptions: {
@@ -177,6 +186,7 @@ export default {
           },
         ],
       },
+      showHeatmap: false,
       loading: false,
       valSelect: {},
       roadOpenings: [],
@@ -207,13 +217,54 @@ export default {
           checked: true,
         },
       ],
-      markerExtent : {
-   xmin: 1.1713368533619583,
-   xmax: -1.1261778570510978,
-   ymin: 5349926.441082417,
-   ymax: 5602780.130649659
+
+      years:[2016,2015,2014,2013,2012],//,2017,2018,2019,2020
+      selectedYears: [2016,2015,2014,2013,2012],
+      markerExtent: {
+        xmin: 1.1713368533619583,
+        xmax: -1.1261778570510978,
+        ymin: 5349926.441082417,
+        ymax: 5602780.130649659,
+      },
+      imageUrl:
+        "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/NOHRSC_Snow_Analysis/MapServer/export?dpi=96&transparent=true&format=png32&layers=show%3A1%2C2%2C3%2C5%2C6%2C7&bbox=-11713368.533619583%2C5349926.441082417%2C-11261778.57051098%2C5602780.130649659&bboxSR=102100&imageSR=102100&size=1477%2C827&f=image",
+        renderer: {
+  type: "heatmap",
+  colorStops: [
+    { color: "rgba(63, 40, 102, 0)", ratio: 0 },
+    { color: "#472b77", ratio: 0.083 },
+    { color: "#4e2d87", ratio: 0.166 },
+    { color: "#563098", ratio: 0.249 },
+    { color: "#5d32a8", ratio: 0.332 },
+    { color: "#6735be", ratio: 0.415 },
+    { color: "#7139d4", ratio: 0.498 },
+    { color: "#7b3ce9", ratio: 0.581 },
+    { color: "#853fff", ratio: 0.664 },
+    { color: "#a46fbf", ratio: 0.747 },
+    { color: "#c29f80", ratio: 0.83 },
+    { color: "#e0cf40", ratio: 0.913 },
+    { color: "#ffff00", ratio: 1 }
+  ],
+  maxPixelIntensity: 25,
+  minPixelIntensity: 0
 },
-imageUrl: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/NOHRSC_Snow_Analysis/MapServer/export?dpi=96&transparent=true&format=png32&layers=show%3A1%2C2%2C3%2C5%2C6%2C7&bbox=-11713368.533619583%2C5349926.441082417%2C-11261778.57051098%2C5602780.130649659&bboxSR=102100&imageSR=102100&size=1477%2C827&f=image"
+
+      simplerRenderer: {
+        type: "simple",
+          symbol: {
+        type: "picture-marker",
+        url: "/mtl.png",
+        width: 8,
+        height: 4,
+      }
+        }
+// simplerRenderer: new SimpleRenderer({
+//           symbol: new SimpleMarkerSymbol({
+//             size: 4,
+//             color: [0, 255, 255],
+//             outline: null
+//           })
+//         })
     };
   },
   mounted() {
@@ -252,36 +303,31 @@ imageUrl: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/NO
         outFields: ["*"], // Return all fields so it can be queried client-side
         opacity: 0.5,
         renderer: this.roadRender,
-      })
+      });
       this.snowDepth = new MapImageLayer({
         opacity: 0.5,
         url: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/NOHRSC_Snow_Analysis/MapServer",
       });
 
-const point = new Point ({
-   x: -103.19455082423462,
-   y: 44.070438441736194
-});
-
-
-const symbolMarker = { 
-   type: "picture-marker",
-   url: this.imageUrl,
-   width: 1477,
-   height: 827
-};
-const graphicPoint = new Graphic({
-   geometry: point,
-   symbol: symbolMarker
-});
-      this.graphicLayer = new GraphicsLayer({
-          graphics: [graphicPoint],
-        opacity: 0.5,
-
+      const point = new Point({
+        x: -103.19455082423462,
+        y: 44.070438441736194,
       });
 
-
-
+      const symbolMarker = {
+        type: "picture-marker",
+        url: this.imageUrl,
+        width: 1477,
+        height: 827,
+      };
+      const graphicPoint = new Graphic({
+        geometry: point,
+        symbol: symbolMarker,
+      });
+      this.graphicLayer = new GraphicsLayer({
+        graphics: [graphicPoint],
+        opacity: 0.5,
+      });
 
       this.gfp = new VectorTileLayer({
         opacity: 0.5,
@@ -290,13 +336,15 @@ const graphicPoint = new Graphic({
 
       this.harvestLocations = new GeoJSONLayer({
         url: "./harvestLocations.geojson",
+        renderer: this.showHeatmap ? this.renderer : this.simplerRenderer,
       });
 
-      this.map.add(this.snowDepth);
       this.map.add(this.gfp);
+      this.map.add(this.snowDepth);
+      //this.map.add(this.graphicLayer);
       this.map.add(this.nfsmvum);
       this.map.add(this.harvestLocations);
-      this.map.add(this.graphicLayer);
+
       this.AddFilterButton();
       this.AddDatePicker();
 
@@ -357,10 +405,10 @@ const graphicPoint = new Graphic({
       }
       var _this = this;
       this.view.watch("stationary", (newValue) => {
-      if (newValue == true) { 
-        _this.adjustMarker();
-      }
-    });
+        if (newValue == true) {
+          _this.adjustMarker();
+        }
+      });
     },
     LoadDates() {
       var _this = this;
@@ -403,30 +451,30 @@ const graphicPoint = new Graphic({
           throw Error(error);
         });
     },
-adjustMarker() {
-   const topRightScreenPt = this.view.toScreen({ 
-      x: this.markerExtent.xmax, 
-      y: this.markerExtent.ymax, 
-      spatialReference:{
-         wkid: 4326
-      }
-   });
-   const bottomLeftScreenPt = this.view.toScreen({ 
-      x: this.markerExtent.xmin, 
-      y: this.markerExtent.ymin, 
-      spatialReference:{
-         wkid: 4326
-      }
-   });
-   const newWidth = Math.abs(topRightScreenPt.x - bottomLeftScreenPt.x);
-   const newHeight = Math.abs(bottomLeftScreenPt.y - topRightScreenPt.y);
-   this.graphicLayer.graphics.items[0].symbol = { 
-      type: "picture-marker",
-      url: this.imageUrl,
-      width: newWidth > 0 ? newWidth : 1,
-      height:  newHeight > 0 ? newHeight : 827
-   };
-},
+    adjustMarker() {
+      const topRightScreenPt = this.view.toScreen({
+        x: this.markerExtent.xmax,
+        y: this.markerExtent.ymax,
+        spatialReference: {
+          wkid: 4326,
+        },
+      });
+      const bottomLeftScreenPt = this.view.toScreen({
+        x: this.markerExtent.xmin,
+        y: this.markerExtent.ymin,
+        spatialReference: {
+          wkid: 4326,
+        },
+      });
+      const newWidth = Math.abs(topRightScreenPt.x - bottomLeftScreenPt.x);
+      const newHeight = Math.abs(bottomLeftScreenPt.y - topRightScreenPt.y);
+      this.graphicLayer.graphics.items[0].symbol = {
+        type: "picture-marker",
+        url: this.imageUrl,
+        width: newWidth > 0 ? newWidth : 1,
+        height: newHeight > 0 ? newHeight : 827,
+      };
+    },
     AddFilterButton() {
       var _this = this;
       var btn = document.getElementById("filterButton");
@@ -548,7 +596,7 @@ adjustMarker() {
         //}
         //str += "TRUCK <> 'open'";
       }
-      
+
       this.nfsmvum.definitionExpression = str;
       this.map.add(this.nfsmvum);
     },
@@ -669,7 +717,7 @@ adjustMarker() {
         return false;
       }
     },
-    showCachedSnowDepth(){
+    showCachedSnowDepth() {
       if (this.showCachedSnowDepth && this.map != null) {
         this.map.add(this.graphicLayer);
         return true;
@@ -678,8 +726,27 @@ adjustMarker() {
         return false;
       }
     },
+    showHeatmap(){
+      if (this.showHeatmap && this.map != null) {
+        
+this.harvestLocations.renderer= this.renderer;
+      }else{
+        this.harvestLocations.renderer=this.simplerRenderer;
+      }
+    },
+    selectedYears() {
+      var buildcsv ="(";
+      this.selectedYears.forEach((x,i) => {
+        if(i!==0){
+          buildcsv += " or ";
+        }
+        buildcsv += "Year = '" + x + "'";
+      });
+      buildcsv += ")";
+      this.harvestLocations.definitionExpression = buildcsv;// "( Year in (" + buildcsv.substring(0,buildcsv.length -1)+ ")";
+    },
+    
   },
- 
 };
 </script>
 
