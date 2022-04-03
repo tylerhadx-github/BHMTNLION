@@ -29,7 +29,7 @@
                   ></v-switch>
                 </v-col>
                 <v-col>
-                  <input type="date" id="date-picker" />
+                  <input v-if="showNfsmvum" type="date" id="date-picker" />
                 </v-col>
                 <v-col></v-col>
               </v-row>
@@ -44,6 +44,7 @@
 
                 <v-col>
                   <v-autocomplete
+                  v-if="showHarvestLocations"
                     v-model="selectedYears"
                     :items="years"
                     :multiple="true"
@@ -51,7 +52,7 @@
                   ></v-autocomplete>
                 </v-col>
                 <v-col>
-                  <v-switch v-model="showHeatmap" label="Heatmap"></v-switch>
+                  <v-switch v-if="showHarvestLocations" v-model="showHeatmap" label="Heatmap"></v-switch>
                 </v-col>
               </v-row>
             </v-card-text>
