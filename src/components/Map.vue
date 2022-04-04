@@ -471,9 +471,19 @@ export default {
       });
       const newWidth = Math.abs(topRightScreenPt.x - bottomLeftScreenPt.x);
       const newHeight = Math.abs(bottomLeftScreenPt.y - topRightScreenPt.y);
+
+
+
+      var useImage = false;
+      if (localStorage.getItem("snowDepthImage")) {
+        var snowImageBase64 = localStorage.getItem("snowDepthImage");
+        useImage = true;
+      }
+
+
       this.graphicLayer.graphics.items[0].symbol = {
         type: "picture-marker",
-        url: this.imageUrl,
+        url:  useImage ? snowImageBase64 : this.imageUrl,
         width: newWidth > 0 ? newWidth + "px" : 1,
         height: newHeight > 0 ? newHeight + "px" : 1,
       };
@@ -775,6 +785,7 @@ export default {
         width: 1477,
         height: 827,
       };
+      
       const graphicPoint = new Graphic({
         geometry: point,
         symbol: symbolMarker,
