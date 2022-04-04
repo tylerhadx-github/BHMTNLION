@@ -424,7 +424,18 @@ export default {
           }
         })
         .then((response) => {
-          response.features.forEach((x) => {
+            
+          localStorage.setItem("fsData", response.features);
+          _this.extraParsing(response.features, _this);
+          
+        })
+        .catch((x) => {
+          this.extraParsing(localStorage.getItem("fsData"),_this);
+          console.log(x);
+        });
+    },
+    extraParsing(items,_this){
+      items.forEach((x) => {
             var y = x.attributes.PASSENGERVEHICLE_DATESOPEN;
             if (y) {
               //check for comma
@@ -442,10 +453,6 @@ export default {
           var d = new Date();
           _this.updateYear(d);
           _this.buildTypeStatement(d);
-        })
-        .catch((error) => {
-          throw Error(error);
-        });
     },
     adjustMarker() {
       const topRightScreenPt = this.view.toScreen({
