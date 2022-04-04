@@ -11,11 +11,21 @@
             </v-card-title>
             <v-card-text v-if="expand">
               <v-switch v-model="showGfp" dense :label="`GFP`"></v-switch>
+              <v-row>
+                <v-col>
               <v-switch
                 v-model="showSnowDepth"
                 dense
                 :label="`Snow Depth`"
               ></v-switch>
+              </v-col>
+              <v-col>
+                <v-btn @click="showImage = !showImage">Snow Depth Chart</v-btn>
+                <div v-if="showImage">
+                  <img src="Legend.png" alt="Snow Depth Map" />
+                </div>
+              </v-col>
+              </v-row>
               <v-row>
                 <v-col>
                   <v-switch
@@ -146,6 +156,7 @@ export default {
   props: {},
   data: function () {
     return {
+      showImage: false,
       roadDate: new Date(),
       expand: localStorage.getItem("expand")
         ? JSON.parse(localStorage.getItem("expand"))
