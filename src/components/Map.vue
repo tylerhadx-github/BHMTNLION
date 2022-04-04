@@ -759,6 +759,30 @@ export default {
     },
     showCachedSnowDepth() {
       if (this.showCachedSnowDepth && this.map != null) {
+        const point = new Point({
+        x: -103.19455082423462,
+        y: 44.070438441736194,
+      });
+      var useImage = false;
+      if (localStorage.getItem("snowDepthImage")) {
+        var snowImageBase64 = localStorage.getItem("snowDepthImage");
+        useImage = true;
+      }
+
+      const symbolMarker = {
+        type: "picture-marker",
+        url: useImage ? snowImageBase64 : this.imageUrl,
+        width: 1477,
+        height: 827,
+      };
+      const graphicPoint = new Graphic({
+        geometry: point,
+        symbol: symbolMarker,
+      });
+      this.graphicLayer = new GraphicsLayer({
+        graphics: [graphicPoint],
+        opacity: 0.5,
+      });
         this.map.add(this.graphicLayer);
         return true;
       } else {
