@@ -615,6 +615,9 @@ export default {
     },
     buildWhereByType(type, filterDate) {
       var w = "(";
+      if(this.roadOpenings.length ==0){
+        this.roadOpenings =localStorage.getItem("roadOpenings");
+      }
       var todayFilter = this.roadOpenings.filter(
         (x) =>
           new Date(x.StartDate) <= filterDate &&
@@ -628,6 +631,9 @@ export default {
       return w;
     },
     updateYear(d) {
+      if(this.roadOpenings.length ==0){
+        this.roadOpenings =localStorage.getItem("roadOpenings");
+      }
       this.roadOpenings.forEach((x) => {
         x.StartDate = x.StartDate.slice(0, -4) + d.getFullYear();
         x.EndDate = x.EndDate.slice(0, -4) + d.getFullYear();
@@ -647,6 +653,7 @@ export default {
         };
         this.roadOpenings.push(l);
       }
+      localStorage.setItem("roadOpenings", this.roadOpenings);
     },
     formatDate(date) {
       return [
