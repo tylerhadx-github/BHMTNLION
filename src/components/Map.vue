@@ -335,11 +335,60 @@ export default {
         renderer: this.showHeatmap ? this.renderer : this.simplerRenderer,
       });
 
+
+if(localStorage.getItem("showGfp")){
+  this.showGfp = JSON.parse(localStorage.getItem("showGfp"));
+}else{
+  localStorage.setItem("showGfp", this.showGfp);
+}
+
+if(localStorage.getItem("showSnowDepth")){
+  this.showSnowDepth = JSON.parse(localStorage.getItem("showSnowDepth"));
+}else{
+  localStorage.setItem("showSnowDepth", this.showSnowDepth);
+}
+if(localStorage.getItem("showCachedSnowDepth")){
+  this.showCachedSnowDepth = JSON.parse(localStorage.getItem("showCachedSnowDepth"));
+}else{
+  localStorage.setItem("showCachedSnowDepth", this.showCachedSnowDepth);
+}
+
+if(localStorage.getItem("showHarvestLocations")){
+  this.showHarvestLocations = JSON.parse(localStorage.getItem("showHarvestLocations"));
+}
+else{
+  localStorage.setItem("showHarvestLocations", this.showHarvestLocations);
+}
+
+if(localStorage.getItem("showNfsmvum")){
+  this.showNfsmvum = JSON.parse(localStorage.getItem("showNfsmvum"));
+}
+else{
+  localStorage.setItem("showNfsmvum", this.showNfsmvum);
+}
+
+
+if(this.showGfp) {
       this.map.add(this.gfp);
+}
+if(this.showSnowDepth) {
+
       this.map.add(this.snowDepth);
+}
+if(this.showCachedSnowDepth) {
       this.map.add(this.graphicLayer);
+}
+
+if(this.showNfsmvum) {
       this.map.add(this.nfsmvum);
-      this.map.add(this.harvestLocations);
+}
+
+if(this.showHarvestLocations){
+        this.map.add(this.harvestLocations);
+}
+
+      
+
 
       this.AddFilterButton();
       this.AddDatePicker();
@@ -611,12 +660,14 @@ export default {
       }
 
       this.nfsmvum.definitionExpression = str;
+      if(this.showNfsmvum) {
       this.map.add(this.nfsmvum);
+      }
     },
     buildWhereByType(type, filterDate) {
       var w = "(";
       if(this.roadOpenings.length ==0){
-        this.roadOpenings =localStorage.getItem("roadOpenings");
+        this.roadOpenings = JSON.parse(localStorage.getItem("roadOpenings"));
       }
       var todayFilter = this.roadOpenings.filter(
         (x) =>
@@ -632,7 +683,7 @@ export default {
     },
     updateYear(d) {
       if(this.roadOpenings.length ==0){
-        this.roadOpenings =localStorage.getItem("roadOpenings");
+        this.roadOpenings = JSON.parse(localStorage.getItem("roadOpenings"));
       }
       this.roadOpenings.forEach((x) => {
         x.StartDate = x.StartDate.slice(0, -4) + d.getFullYear();
@@ -653,7 +704,7 @@ export default {
         };
         this.roadOpenings.push(l);
       }
-      localStorage.setItem("roadOpenings", this.roadOpenings);
+      localStorage.setItem("roadOpenings", JSON.stringify(this.roadOpenings));
     },
     formatDate(date) {
       return [
@@ -739,6 +790,7 @@ export default {
         });
     },
     showGfp() {
+      localStorage.setItem("showGfp",JSON.stringify(this.showGfp));
       if (this.showGfp && this.map != null) {
         this.map.add(this.gfp);
         return true;
@@ -748,6 +800,7 @@ export default {
       }
     },
     showNfsmvum() {
+      localStorage.setItem("showNfsmvum", JSON.stringify(this.showNfsmvum));
       if (this.showNfsmvum && this.map != null) {
         this.map.add(this.nfsmvum);
         return true;
@@ -757,6 +810,7 @@ export default {
       }
     },
     showSnowDepth() {
+      localStorage.setItem("showSnowDepth", JSON.stringify(this.showSnowDepth));
       if (this.showSnowDepth && this.map != null) {
         this.map.add(this.snowDepth);
         return true;
@@ -766,6 +820,7 @@ export default {
       }
     },
     showHarvestLocations() {
+      localStorage.setItem("showHarvestLocations", JSON.stringify(this.showHarvestLocations));
       if (this.showHarvestLocations && this.map != null) {
         this.map.add(this.harvestLocations);
         return true;
@@ -775,6 +830,7 @@ export default {
       }
     },
     showCachedSnowDepth() {
+      localStorage.setItem("showCachedSnowDepth", JSON.stringify(this.showCachedSnowDepth));
       if (this.showCachedSnowDepth && this.map != null) {
               const topRightScreenPt = this.view.toScreen({
         x: this.markerExtent.xmax,
