@@ -7,7 +7,7 @@
             <v-card-title>
               <span class="headline">Map Filters</span>
               <v-spacer></v-spacer>
-              <v-btn @click="expand= !expand">{{btnname}}</v-btn>
+              <v-btn @click="expand = !expand">{{ btnname }}</v-btn>
             </v-card-title>
             <v-card-text v-if="expand">
               <v-switch v-model="showGfp" dense :label="`GFP`"></v-switch>
@@ -18,26 +18,30 @@
               ></v-switch>
               <v-row>
                 <v-col>
-              <v-switch
-                v-model="showCachedSnowDepth"
-                dense
-                :label="`Cached Snow Depth`"
-              ></v-switch>
-              </v-col>
-              <v-col>
-                {{snowDepthDate}}
-              </v-col>
+                  <v-switch
+                    v-model="showCachedSnowDepth"
+                    dense
+                    :label="`Cached Snow Depth`"
+                  ></v-switch>
+                </v-col>
+                <v-col>
+                  {{ snowDepthDate }}
+                </v-col>
               </v-row>
               <v-row>
-                <v-col >
+                <v-col>
                   <v-switch
                     v-model="showNfsmvum"
                     dense
                     :label="`Road Map`"
                   ></v-switch>
                 </v-col>
-                <v-col class="pt-4 mt-4" >
-                  <input v-model="roadDate" :type="showNfsmvum ? 'date': 'hidden'" id="date-picker" />
+                <v-col class="pt-4 mt-4">
+                  <input
+                    v-model="roadDate"
+                    :type="showNfsmvum ? 'date' : 'hidden'"
+                    id="date-picker"
+                  />
                 </v-col>
                 <v-col></v-col>
               </v-row>
@@ -49,7 +53,7 @@
                     :label="`Harvest Locations`"
                   ></v-switch>
                 </v-col>
-        <v-col cols="6" sm="4">
+                <v-col cols="6" sm="4">
                   <v-switch
                     v-if="showHarvestLocations"
                     v-model="showHeatmap"
@@ -65,7 +69,6 @@
                     label="Years"
                   ></v-autocomplete>
                 </v-col>
-               
               </v-row>
             </v-card-text>
           </v-card>
@@ -144,7 +147,9 @@ export default {
   data: function () {
     return {
       roadDate: new Date(),
-      expand: localStorage.getItem("expand") ?  JSON.parse(localStorage.getItem("expand")): true,
+      expand: localStorage.getItem("expand")
+        ? JSON.parse(localStorage.getItem("expand"))
+        : true,
       map: null,
       view: null,
       nfsmvum: null,
@@ -220,8 +225,8 @@ export default {
         },
       ],
       snowDepthDate: null,
-      years: [2017,2016, 2015, 2014, 2013, 2012], //,2018,2019,2020
-      selectedYears: [2017,2016, 2015, 2014, 2013, 2012],
+      years: [2017, 2016, 2015, 2014, 2013, 2012], //,2018,2019,2020
+      selectedYears: [2017, 2016, 2015, 2014, 2013, 2012],
       markerExtent: {
         xmin: -105.2229798227514,
         xmax: -101.16627816259711,
@@ -265,12 +270,10 @@ export default {
     this.LoadDates();
     this.LoadData();
     this.cacheSnowDepth();
-
-        var  d = new Date(document.getElementById("date-picker").value);
-
-        this.updateYear(d);
-        var where = this.buildTypeStatement(d);
-        this.setFeatureLayerFilter(where);
+    var d = new Date(document.getElementById("date-picker").value);
+    this.updateYear(d);
+    var where = this.buildTypeStatement(d);
+    this.setFeatureLayerFilter(where);
   },
   methods: {
     LoadData() {
@@ -345,76 +348,75 @@ export default {
         renderer: this.showHeatmap ? this.renderer : this.simplerRenderer,
       });
 
+      if (localStorage.getItem("showGfp")) {
+        this.showGfp = JSON.parse(localStorage.getItem("showGfp"));
+      } else {
+        localStorage.setItem("showGfp", this.showGfp);
+      }
 
-if(localStorage.getItem("showGfp")){
-  this.showGfp = JSON.parse(localStorage.getItem("showGfp"));
-}else{
-  localStorage.setItem("showGfp", this.showGfp);
-}
+      if (localStorage.getItem("showSnowDepth")) {
+        this.showSnowDepth = JSON.parse(localStorage.getItem("showSnowDepth"));
+      } else {
+        localStorage.setItem("showSnowDepth", this.showSnowDepth);
+      }
+      if (localStorage.getItem("showCachedSnowDepth")) {
+        this.showCachedSnowDepth = JSON.parse(
+          localStorage.getItem("showCachedSnowDepth")
+        );
+      } else {
+        localStorage.setItem("showCachedSnowDepth", this.showCachedSnowDepth);
+      }
 
-if(localStorage.getItem("showSnowDepth")){
-  this.showSnowDepth = JSON.parse(localStorage.getItem("showSnowDepth"));
-}else{
-  localStorage.setItem("showSnowDepth", this.showSnowDepth);
-}
-if(localStorage.getItem("showCachedSnowDepth")){
-  this.showCachedSnowDepth = JSON.parse(localStorage.getItem("showCachedSnowDepth"));
-}else{
-  localStorage.setItem("showCachedSnowDepth", this.showCachedSnowDepth);
-}
+      if (localStorage.getItem("showHarvestLocations")) {
+        this.showHarvestLocations = JSON.parse(
+          localStorage.getItem("showHarvestLocations")
+        );
+      } else {
+        localStorage.setItem("showHarvestLocations", this.showHarvestLocations);
+      }
 
-if(localStorage.getItem("showHarvestLocations")){
-  this.showHarvestLocations = JSON.parse(localStorage.getItem("showHarvestLocations"));
-}
-else{
-  localStorage.setItem("showHarvestLocations", this.showHarvestLocations);
-}
+      if (localStorage.getItem("showNfsmvum")) {
+        this.showNfsmvum = JSON.parse(localStorage.getItem("showNfsmvum"));
+      } else {
+        localStorage.setItem("showNfsmvum", this.showNfsmvum);
+      }
 
-if(localStorage.getItem("showNfsmvum")){
-  this.showNfsmvum = JSON.parse(localStorage.getItem("showNfsmvum"));
-}
-else{
-  localStorage.setItem("showNfsmvum", this.showNfsmvum);
-}
+      if (localStorage.getItem("showHeatmap")) {
+        this.showHeatmap = JSON.parse(localStorage.getItem("showHeatmap"));
+      } else {
+        localStorage.setItem("showHeatmap", this.showHeatmap);
+      }
 
-if(localStorage.getItem("showHeatmap")){
-  this.showHeatmap = JSON.parse(localStorage.getItem("showHeatmap"));
-}
-else{
-  localStorage.setItem("showHeatmap", this.showHeatmap);
-}
+      if (this.showGfp) {
+        this.map.add(this.gfp);
+      }
+      if (this.showSnowDepth) {
+        this.map.add(this.snowDepth);
+      }
+      if (this.showCachedSnowDepth) {
+        this.map.add(this.graphicLayer);
+      }
 
-if(this.showGfp) {
-      this.map.add(this.gfp);
-}
-if(this.showSnowDepth) {
+      if (this.showNfsmvum) {
+        var MyDate = new Date();
+        var MyDateString;
 
-      this.map.add(this.snowDepth);
-}
-if(this.showCachedSnowDepth) {
-      this.map.add(this.graphicLayer);
-}
+        MyDate.setDate(MyDate.getDate() + 20);
 
-if(this.showNfsmvum) {
-var MyDate = new Date();
-var MyDateString;
+        MyDateString =
+          MyDate.getFullYear() +
+          "-" +
+          ("0" + (MyDate.getMonth() + 1)).slice(-2) +
+          "-" +
+          ("0" + MyDate.getDate()).slice(-2);
+        document.getElementById("date-picker").value = MyDateString;
+        this.roadDate = MyDateString;
+        this.map.add(this.nfsmvum);
+      }
 
-MyDate.setDate(MyDate.getDate() + 20);
-
-MyDateString = MyDate.getFullYear()+ '-'
-             + ('0' + (MyDate.getMonth()+1)).slice(-2) + '-'
-             + ('0' + MyDate.getDate()).slice(-2) ;
-    document.getElementById("date-picker").value = MyDateString;
-  this.roadDate=MyDateString;
-      this.map.add(this.nfsmvum);
-}
-
-if(this.showHarvestLocations){
+      if (this.showHarvestLocations) {
         this.map.add(this.harvestLocations);
-}
-
-      
-
+      }
 
       //this.AddFilterButton();
       this.AddDatePicker();
@@ -481,61 +483,61 @@ if(this.showHarvestLocations){
         }
       });
     },
-   async LoadDates() {
+    async LoadDates() {
       var _this = this;
       var skip = 0;
       var doLoop = true;
-      while(doLoop){
-     await fetch(
-        //"https://apps.fs.usda.gov/fsgisx05/rest/services/wo_nfs_gtac/GTAC_IVMQuery_01/MapServer/1
-        //https://apps.fs.usda.gov/arcx/rest/services/EDW/EDW_MVUM_01/MapServer/1
-        "https://apps.fs.usda.gov/arcx/rest/services/EDW/EDW_MVUM_01/MapServer/1/query?where=1%3D1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=PASSENGERVEHICLE_DATESOPEN&returnGeometry=false&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=false&returnCountOnly=false&orderByFields=PASSENGERVEHICLE_DATESOPEN&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=true&resultOffset=" +skip+"&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeValues=&quantizationParameters=&featureEncoding=esriDefault&f=pjson",
-        {
-          method: "GET",
-        }
-      )
-        .then((res) => {
-          if (res.status === 200 || res.status === 201) {
-            return res.json();
-          } else {
-            return null;
+      while (doLoop) {
+        await fetch(
+          //"https://apps.fs.usda.gov/fsgisx05/rest/services/wo_nfs_gtac/GTAC_IVMQuery_01/MapServer/1
+          //https://apps.fs.usda.gov/arcx/rest/services/EDW/EDW_MVUM_01/MapServer/1
+          "https://apps.fs.usda.gov/arcx/rest/services/EDW/EDW_MVUM_01/MapServer/1/query?where=1%3D1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=PASSENGERVEHICLE_DATESOPEN&returnGeometry=false&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=false&returnCountOnly=false&orderByFields=PASSENGERVEHICLE_DATESOPEN&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=true&resultOffset=" +
+            skip +
+            "&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeValues=&quantizationParameters=&featureEncoding=esriDefault&f=pjson",
+          {
+            method: "GET",
           }
-        })
-        .then((response) => {
-            if(!response.exceededTransferLimit){
-                doLoop = false;
+        )
+          .then((res) => {
+            if (res.status === 200 || res.status === 201) {
+              return res.json();
+            } else {
+              return null;
+            }
+          })
+          .then((response) => {
+            if (!response.exceededTransferLimit) {
+              doLoop = false;
             }
             skip += response.features.length;
-          localStorage.setItem("fsData", response.features);
-          _this.extraParsing(response.features, _this);
-          
-        })
-        .catch((x) => {
-          this.extraParsing(localStorage.getItem("fsData"),_this);
-          console.log(x);
-        });
-      }
-      
-    },
-    extraParsing(items,_this){
-      items.forEach((x) => {
-            var y = x.attributes.PASSENGERVEHICLE_DATESOPEN;
-            if (y) {
-              //check for comma
-              if (y.includes(",")) {
-                var multi = y.split(",");
-                multi.forEach((z) => {
-                  _this.parseDate(z, y);
-                });
-              } else {
-                _this.parseDate(y, y);
-              }
-            }
+            localStorage.setItem("fsData", response.features);
+            _this.extraParsing(response.features, _this);
+          })
+          .catch((x) => {
+            this.extraParsing(localStorage.getItem("fsData"), _this);
+            console.log(x);
           });
+      }
+    },
+    extraParsing(items, _this) {
+      items.forEach((x) => {
+        var y = x.attributes.PASSENGERVEHICLE_DATESOPEN;
+        if (y) {
+          //check for comma
+          if (y.includes(",")) {
+            var multi = y.split(",");
+            multi.forEach((z) => {
+              _this.parseDate(z, y);
+            });
+          } else {
+            _this.parseDate(y, y);
+          }
+        }
+      });
 
-          var d = new Date();
-          _this.updateYear(d);
-          _this.buildTypeStatement(d);
+      var d = new Date();
+      _this.updateYear(d);
+      _this.buildTypeStatement(d);
     },
     adjustMarker() {
       const topRightScreenPt = this.view.toScreen({
@@ -555,41 +557,19 @@ if(this.showHarvestLocations){
       const newWidth = Math.abs(topRightScreenPt.x - bottomLeftScreenPt.x);
       const newHeight = Math.abs(bottomLeftScreenPt.y - topRightScreenPt.y);
 
-
-
       var useImage = false;
       if (localStorage.getItem("snowDepthImage")) {
         var snowImageBase64 = localStorage.getItem("snowDepthImage");
         useImage = true;
       }
 
-
       this.graphicLayer.graphics.items[0].symbol = {
         type: "picture-marker",
-        url:  useImage ? snowImageBase64 : this.imageUrl,
+        url: useImage ? snowImageBase64 : this.imageUrl,
         width: newWidth > 0 ? newWidth + "px" : 1,
         height: newHeight > 0 ? newHeight + "px" : 1,
       };
     },
-    // AddFilterButton() {
-    //   var _this = this;
-    //   var btn = document.getElementById("filterButton");
-    //   btn.setAttribute("class", "esri-widget esri-button");
-    //   btn.setAttribute(
-    //     "style",
-    //     "width: 200px; font-family: Avenir Next W00; font-size: 1em;"
-    //   );
-    //   this.view.ui.add(btn, "top-right");
-    //   btn.addEventListener("click", function () {
-    //     var d = this.roadDate;
-    //     if(d == undefined)
-    //       d = new Date(document.getElementById("date-picker").value);
-
-    //     _this.updateYear(d);
-    //     var where = _this.buildTypeStatement(d);
-    //     _this.setFeatureLayerFilter(where);
-    //   });
-    // },
     setFeatureLayerFilter(expression) {
       this.nfsmvum.definitionExpression = "";
       this.nfsmvum.definitionExpression = expression;
@@ -612,15 +592,14 @@ if(this.showHarvestLocations){
         var d = new Date(event.target.value);
         _this.updateYear(d);
         _this.buildTypeStatement(d);
-            var where = _this.buildTypeStatement(d);
+        var where = _this.buildTypeStatement(d);
         _this.setFeatureLayerFilter(where);
       });
       //this.view.ui.add(dp, "top-right");
     },
-
     buildTypeStatement(filterDate) {
       var str = "";
- 
+
       //TWOWD_GT50INCHES
       //TRACKED_OHV_LT50INCHES
       //TRACKED_OHV_GT50INCHES
@@ -706,7 +685,7 @@ if(this.showHarvestLocations){
     },
     buildWhereByType(type, filterDate) {
       var w = "(";
-      if(this.roadOpenings.length ==0){
+      if (this.roadOpenings.length == 0) {
         this.roadOpenings = JSON.parse(localStorage.getItem("roadOpenings"));
       }
       var todayFilter = this.roadOpenings.filter(
@@ -722,7 +701,7 @@ if(this.showHarvestLocations){
       return w;
     },
     updateYear(d) {
-      if(this.roadOpenings.length ==0){
+      if (this.roadOpenings.length == 0) {
         this.roadOpenings = JSON.parse(localStorage.getItem("roadOpenings"));
       }
       this.roadOpenings.forEach((x) => {
@@ -830,7 +809,7 @@ if(this.showHarvestLocations){
         });
     },
     showGfp() {
-      localStorage.setItem("showGfp",JSON.stringify(this.showGfp));
+      localStorage.setItem("showGfp", JSON.stringify(this.showGfp));
       if (this.showGfp && this.map != null) {
         this.map.add(this.gfp);
         return true;
@@ -842,16 +821,20 @@ if(this.showHarvestLocations){
     showNfsmvum() {
       localStorage.setItem("showNfsmvum", JSON.stringify(this.showNfsmvum));
       if (this.showNfsmvum && this.map != null) {
-       var MyDate = new Date();
-var MyDateString;
+        var MyDate = new Date();
+        var MyDateString;
 
-MyDate.setDate(MyDate.getDate() + 20);
+        MyDate.setDate(MyDate.getDate() + 20);
 
-MyDateString = MyDate.getFullYear()+ '-'
-             + ('0' + (MyDate.getMonth()+1)).slice(-2) + '-'
-             + ('0' + MyDate.getDate()).slice(-2) ;
-    document.getElementById("date-picker").value = MyDateString;
-      this.roadDate = MyDateString;
+        MyDateString =
+          MyDate.getFullYear() +
+          "-" +
+          ("0" + (MyDate.getMonth() + 1)).slice(-2) +
+          "-" +
+          ("0" + MyDate.getDate()).slice(-2);
+        document.getElementById("date-picker").value = MyDateString;
+        this.roadDate = MyDateString;
+        this.AddDatePicker();
         this.map.add(this.nfsmvum);
         return true;
       } else {
@@ -870,7 +853,10 @@ MyDateString = MyDate.getFullYear()+ '-'
       }
     },
     showHarvestLocations() {
-      localStorage.setItem("showHarvestLocations", JSON.stringify(this.showHarvestLocations));
+      localStorage.setItem(
+        "showHarvestLocations",
+        JSON.stringify(this.showHarvestLocations)
+      );
       if (this.showHarvestLocations && this.map != null) {
         this.map.add(this.harvestLocations);
         return true;
@@ -880,49 +866,52 @@ MyDateString = MyDate.getFullYear()+ '-'
       }
     },
     showCachedSnowDepth() {
-      localStorage.setItem("showCachedSnowDepth", JSON.stringify(this.showCachedSnowDepth));
+      localStorage.setItem(
+        "showCachedSnowDepth",
+        JSON.stringify(this.showCachedSnowDepth)
+      );
       if (this.showCachedSnowDepth && this.map != null) {
-              const topRightScreenPt = this.view.toScreen({
-        x: this.markerExtent.xmax,
-        y: this.markerExtent.ymax,
-        spatialReference: {
-          wkid: 4326,
-        },
-      });
-      const bottomLeftScreenPt = this.view.toScreen({
-        x: this.markerExtent.xmin,
-        y: this.markerExtent.ymin,
-        spatialReference: {
-          wkid: 4326,
-        },
-      });
-      const newWidth = Math.abs(topRightScreenPt.x - bottomLeftScreenPt.x);
-      const newHeight = Math.abs(bottomLeftScreenPt.y - topRightScreenPt.y);
+        const topRightScreenPt = this.view.toScreen({
+          x: this.markerExtent.xmax,
+          y: this.markerExtent.ymax,
+          spatialReference: {
+            wkid: 4326,
+          },
+        });
+        const bottomLeftScreenPt = this.view.toScreen({
+          x: this.markerExtent.xmin,
+          y: this.markerExtent.ymin,
+          spatialReference: {
+            wkid: 4326,
+          },
+        });
+        const newWidth = Math.abs(topRightScreenPt.x - bottomLeftScreenPt.x);
+        const newHeight = Math.abs(bottomLeftScreenPt.y - topRightScreenPt.y);
         const point = new Point({
-        x: -103.19455082423462,
-        y: 44.070438441736194,
-      });
-      var useImage = false;
-      if (localStorage.getItem("snowDepthImage")) {
-        var snowImageBase64 = localStorage.getItem("snowDepthImage");
-        useImage = true;
-      }
+          x: -103.19455082423462,
+          y: 44.070438441736194,
+        });
+        var useImage = false;
+        if (localStorage.getItem("snowDepthImage")) {
+          var snowImageBase64 = localStorage.getItem("snowDepthImage");
+          useImage = true;
+        }
 
-      const symbolMarker = {
-        type: "picture-marker",
-        url: useImage ? snowImageBase64 : this.imageUrl,
-        width: newWidth > 0 ? newWidth + "px" : 1,
-        height: newHeight > 0 ? newHeight + "px" : 1,
-      };
-      
-      const graphicPoint = new Graphic({
-        geometry: point,
-        symbol: symbolMarker,
-      });
-      this.graphicLayer = new GraphicsLayer({
-        graphics: [graphicPoint],
-        opacity: 0.5,
-      });
+        const symbolMarker = {
+          type: "picture-marker",
+          url: useImage ? snowImageBase64 : this.imageUrl,
+          width: newWidth > 0 ? newWidth + "px" : 1,
+          height: newHeight > 0 ? newHeight + "px" : 1,
+        };
+
+        const graphicPoint = new Graphic({
+          geometry: point,
+          symbol: symbolMarker,
+        });
+        this.graphicLayer = new GraphicsLayer({
+          graphics: [graphicPoint],
+          opacity: 0.5,
+        });
         this.map.add(this.graphicLayer);
         return true;
       } else {
@@ -950,20 +939,26 @@ MyDateString = MyDate.getFullYear()+ '-'
       buildcsv += ")";
       this.harvestLocations.definitionExpression = buildcsv; // "( Year in (" + buildcsv.substring(0,buildcsv.length -1)+ ")";
     },
-    expand(){
-      localStorage.setItem("expand",JSON.stringify(this.expand));
-    }
+    expand() {
+      localStorage.setItem("expand", JSON.stringify(this.expand));
+    },
+    roadDate(){
+      var d = new Date(this.roadDate);
+        this.updateYear(d);
+        this.buildTypeStatement(d);
+        var where = this.buildTypeStatement(d);
+        this.setFeatureLayerFilter(where);
+    },
   },
-  computed:{
-         btnname:function(){ 
-           if(this.expand){
-             return "Collapse";
-           }else {
-             return "Expand";
-             }
-         }
-
-  }
+  computed: {
+    btnname: function () {
+      if (this.expand) {
+        return "Collapse";
+      } else {
+        return "Expand";
+      }
+    },
+  },
 };
 </script>
 
