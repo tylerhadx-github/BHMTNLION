@@ -769,6 +769,22 @@ export default {
     },
     showCachedSnowDepth() {
       if (this.showCachedSnowDepth && this.map != null) {
+              const topRightScreenPt = this.view.toScreen({
+        x: this.markerExtent.xmax,
+        y: this.markerExtent.ymax,
+        spatialReference: {
+          wkid: 4326,
+        },
+      });
+      const bottomLeftScreenPt = this.view.toScreen({
+        x: this.markerExtent.xmin,
+        y: this.markerExtent.ymin,
+        spatialReference: {
+          wkid: 4326,
+        },
+      });
+      const newWidth = Math.abs(topRightScreenPt.x - bottomLeftScreenPt.x);
+      const newHeight = Math.abs(bottomLeftScreenPt.y - topRightScreenPt.y);
         const point = new Point({
         x: -103.19455082423462,
         y: 44.070438441736194,
@@ -782,8 +798,8 @@ export default {
       const symbolMarker = {
         type: "picture-marker",
         url: useImage ? snowImageBase64 : this.imageUrl,
-        width: 1477,
-        height: 827,
+        width: newWidth > 0 ? newWidth + "px" : 1,
+        height: newHeight > 0 ? newHeight + "px" : 1,
       };
       
       const graphicPoint = new Graphic({
