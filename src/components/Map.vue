@@ -401,7 +401,7 @@ export default {
         var MyDate = new Date();
         var MyDateString;
 
-        MyDate.setDate(MyDate.getDate() + 20);
+        MyDate.setDate(MyDate.getDate());
 
         MyDateString =
           MyDate.getFullYear() +
@@ -824,7 +824,7 @@ export default {
         var MyDate = new Date();
         var MyDateString;
 
-        MyDate.setDate(MyDate.getDate() + 20);
+        MyDate.setDate(MyDate.getDate() );
 
         MyDateString =
           MyDate.getFullYear() +
