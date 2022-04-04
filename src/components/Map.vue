@@ -6,8 +6,10 @@
           <v-card>
             <v-card-title>
               <span class="headline">Map Filters</span>
+              <v-spacer></v-spacer>
+              <v-btn @click="expand= !expand">{{btnname}}</v-btn>
             </v-card-title>
-            <v-card-text>
+            <v-card-text v-if="expand">
               <v-switch v-model="showGfp" dense :label="`GFP`"></v-switch>
               <v-switch
                 v-model="showSnowDepth"
@@ -27,28 +29,34 @@
               </v-col>
               </v-row>
               <v-row>
-                <v-col>
+                <v-col >
                   <v-switch
                     v-model="showNfsmvum"
                     dense
                     :label="`Road Map`"
                   ></v-switch>
                 </v-col>
-                <v-col>
-                  <input v-if="showNfsmvum" type="date" id="date-picker" />
+                <v-col class="pt-4 mt-4" >
+                  <input v-model="roadDate" :type="showNfsmvum ? 'date': 'hidden'" id="date-picker" />
                 </v-col>
                 <v-col></v-col>
               </v-row>
               <v-row>
-                <v-col>
+                <v-col cols="6" sm="4">
                   <v-switch
                     v-model="showHarvestLocations"
                     dense
                     :label="`Harvest Locations`"
                   ></v-switch>
                 </v-col>
-
-                <v-col>
+        <v-col cols="6" sm="4">
+                  <v-switch
+                    v-if="showHarvestLocations"
+                    v-model="showHeatmap"
+                    label="Heatmap"
+                  ></v-switch>
+                </v-col>
+                <v-col cols="12" sm="4">
                   <v-autocomplete
                     v-if="showHarvestLocations"
                     v-model="selectedYears"
@@ -57,13 +65,7 @@
                     label="Years"
                   ></v-autocomplete>
                 </v-col>
-                <v-col>
-                  <v-switch
-                    v-if="showHarvestLocations"
-                    v-model="showHeatmap"
-                    label="Heatmap"
-                  ></v-switch>
-                </v-col>
+               
               </v-row>
             </v-card-text>
           </v-card>
@@ -72,11 +74,11 @@
     </v-container>
 
     <v-progress-linear indeterminate v-if="loading"></v-progress-linear>
-    <input type="button" id="filterButton" value="Apply Above Filters" />
+    <!-- <input type="button" id="filterButton" value="Apply Above Filters" /> -->
     <div
       id="viewDiv"
       :width="'100%'"
-      style="align-content: center; height: 75vh"
+      style="align-content: center; height: 80vh"
     ></div>
   </div>
 </template>
@@ -141,6 +143,8 @@ export default {
   props: {},
   data: function () {
     return {
+      roadDate: new Date(),
+      expand: localStorage.getItem("expand") ?  JSON.parse(localStorage.getItem("expand")): true,
       map: null,
       view: null,
       nfsmvum: null,
@@ -261,6 +265,12 @@ export default {
     this.LoadDates();
     this.LoadData();
     this.cacheSnowDepth();
+
+        var  d = new Date(document.getElementById("date-picker").value);
+
+        this.updateYear(d);
+        var where = this.buildTypeStatement(d);
+        this.setFeatureLayerFilter(where);
   },
   methods: {
     LoadData() {
@@ -367,6 +377,12 @@ else{
   localStorage.setItem("showNfsmvum", this.showNfsmvum);
 }
 
+if(localStorage.getItem("showHeatmap")){
+  this.showHeatmap = JSON.parse(localStorage.getItem("showHeatmap"));
+}
+else{
+  localStorage.setItem("showHeatmap", this.showHeatmap);
+}
 
 if(this.showGfp) {
       this.map.add(this.gfp);
@@ -380,6 +396,16 @@ if(this.showCachedSnowDepth) {
 }
 
 if(this.showNfsmvum) {
+var MyDate = new Date();
+var MyDateString;
+
+MyDate.setDate(MyDate.getDate() + 20);
+
+MyDateString = MyDate.getFullYear()+ '-'
+             + ('0' + (MyDate.getMonth()+1)).slice(-2) + '-'
+             + ('0' + MyDate.getDate()).slice(-2) ;
+    document.getElementById("date-picker").value = MyDateString;
+  this.roadDate=MyDateString;
       this.map.add(this.nfsmvum);
 }
 
@@ -390,7 +416,7 @@ if(this.showHarvestLocations){
       
 
 
-      this.AddFilterButton();
+      //this.AddFilterButton();
       this.AddDatePicker();
 
       var popupTrailheads = {
@@ -455,12 +481,15 @@ if(this.showHarvestLocations){
         }
       });
     },
-    LoadDates() {
+   async LoadDates() {
       var _this = this;
-      fetch(
+      var skip = 0;
+      var doLoop = true;
+      while(doLoop){
+     await fetch(
         //"https://apps.fs.usda.gov/fsgisx05/rest/services/wo_nfs_gtac/GTAC_IVMQuery_01/MapServer/1
         //https://apps.fs.usda.gov/arcx/rest/services/EDW/EDW_MVUM_01/MapServer/1
-        "https://apps.fs.usda.gov/arcx/rest/services/EDW/EDW_MVUM_01/MapServer/1/query?where=1%3D1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=PASSENGERVEHICLE_DATESOPEN&returnGeometry=false&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=false&returnCountOnly=false&orderByFields=PASSENGERVEHICLE_DATESOPEN&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=true&resultOffset=&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeValues=&quantizationParameters=&featureEncoding=esriDefault&f=pjson",
+        "https://apps.fs.usda.gov/arcx/rest/services/EDW/EDW_MVUM_01/MapServer/1/query?where=1%3D1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=PASSENGERVEHICLE_DATESOPEN&returnGeometry=false&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=false&returnCountOnly=false&orderByFields=PASSENGERVEHICLE_DATESOPEN&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=true&resultOffset=" +skip+"&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeValues=&quantizationParameters=&featureEncoding=esriDefault&f=pjson",
         {
           method: "GET",
         }
@@ -473,7 +502,10 @@ if(this.showHarvestLocations){
           }
         })
         .then((response) => {
-            
+            if(!response.exceededTransferLimit){
+                doLoop = false;
+            }
+            skip += response.features.length;
           localStorage.setItem("fsData", response.features);
           _this.extraParsing(response.features, _this);
           
@@ -482,6 +514,8 @@ if(this.showHarvestLocations){
           this.extraParsing(localStorage.getItem("fsData"),_this);
           console.log(x);
         });
+      }
+      
     },
     extraParsing(items,_this){
       items.forEach((x) => {
@@ -537,23 +571,27 @@ if(this.showHarvestLocations){
         height: newHeight > 0 ? newHeight + "px" : 1,
       };
     },
-    AddFilterButton() {
-      var _this = this;
-      var btn = document.getElementById("filterButton");
-      btn.setAttribute("class", "esri-widget esri-button");
-      btn.setAttribute(
-        "style",
-        "width: 200px; font-family: Avenir Next W00; font-size: 1em;"
-      );
-      this.view.ui.add(btn, "top-right");
-      btn.addEventListener("click", function () {
-        var d = new Date(document.getElementById("date-picker").value);
-        _this.updateYear(d);
-        var where = _this.buildTypeStatement(d);
-        _this.setFeatureLayerFilter(where);
-      });
-    },
+    // AddFilterButton() {
+    //   var _this = this;
+    //   var btn = document.getElementById("filterButton");
+    //   btn.setAttribute("class", "esri-widget esri-button");
+    //   btn.setAttribute(
+    //     "style",
+    //     "width: 200px; font-family: Avenir Next W00; font-size: 1em;"
+    //   );
+    //   this.view.ui.add(btn, "top-right");
+    //   btn.addEventListener("click", function () {
+    //     var d = this.roadDate;
+    //     if(d == undefined)
+    //       d = new Date(document.getElementById("date-picker").value);
+
+    //     _this.updateYear(d);
+    //     var where = _this.buildTypeStatement(d);
+    //     _this.setFeatureLayerFilter(where);
+    //   });
+    // },
     setFeatureLayerFilter(expression) {
+      this.nfsmvum.definitionExpression = "";
       this.nfsmvum.definitionExpression = expression;
     },
     AddDatePicker() {
@@ -574,14 +612,15 @@ if(this.showHarvestLocations){
         var d = new Date(event.target.value);
         _this.updateYear(d);
         _this.buildTypeStatement(d);
+            var where = _this.buildTypeStatement(d);
+        _this.setFeatureLayerFilter(where);
       });
       //this.view.ui.add(dp, "top-right");
     },
 
     buildTypeStatement(filterDate) {
       var str = "";
-      this.nfsmvum.definitionExpression = str;
-      this.map.remove(this.nfsmvum);
+ 
       //TWOWD_GT50INCHES
       //TRACKED_OHV_LT50INCHES
       //TRACKED_OHV_GT50INCHES
@@ -659,10 +698,11 @@ if(this.showHarvestLocations){
         //str += "TRUCK <> 'open'";
       }
 
-      this.nfsmvum.definitionExpression = str;
-      if(this.showNfsmvum) {
-      this.map.add(this.nfsmvum);
-      }
+      //this.nfsmvum.definitionExpression = str;
+      // if(this.showNfsmvum) {
+      // this.map.add(this.nfsmvum);
+      // }
+      return str;
     },
     buildWhereByType(type, filterDate) {
       var w = "(";
@@ -802,6 +842,16 @@ if(this.showHarvestLocations){
     showNfsmvum() {
       localStorage.setItem("showNfsmvum", JSON.stringify(this.showNfsmvum));
       if (this.showNfsmvum && this.map != null) {
+       var MyDate = new Date();
+var MyDateString;
+
+MyDate.setDate(MyDate.getDate() + 20);
+
+MyDateString = MyDate.getFullYear()+ '-'
+             + ('0' + (MyDate.getMonth()+1)).slice(-2) + '-'
+             + ('0' + MyDate.getDate()).slice(-2) ;
+    document.getElementById("date-picker").value = MyDateString;
+      this.roadDate = MyDateString;
         this.map.add(this.nfsmvum);
         return true;
       } else {
@@ -881,6 +931,8 @@ if(this.showHarvestLocations){
       }
     },
     showHeatmap() {
+      localStorage.setItem("showHeatmap", JSON.stringify(this.showHeatmap));
+
       if (this.showHeatmap && this.map != null) {
         this.harvestLocations.renderer = this.renderer;
       } else {
@@ -898,7 +950,20 @@ if(this.showHarvestLocations){
       buildcsv += ")";
       this.harvestLocations.definitionExpression = buildcsv; // "( Year in (" + buildcsv.substring(0,buildcsv.length -1)+ ")";
     },
+    expand(){
+      localStorage.setItem("expand",JSON.stringify(this.expand));
+    }
   },
+  computed:{
+         btnname:function(){ 
+           if(this.expand){
+             return "Collapse";
+           }else {
+             return "Expand";
+             }
+         }
+
+  }
 };
 </script>
 
