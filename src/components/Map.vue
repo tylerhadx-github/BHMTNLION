@@ -48,9 +48,9 @@
                 </v-col>
                 <v-col class="pt-4 mt-4">
                   <input
-                    v-model="roadDate"
-                    :type="showNfsmvum ? 'date' : 'hidden'"
+                    type="date"
                     id="date-picker"
+                    :disabled="!showNfsmvum"
                   />
                 </v-col>
                 <v-col></v-col>
@@ -111,7 +111,6 @@ import Search from "@arcgis/core/widgets/Search";
 import BasemapGallery from "@arcgis/core/widgets/BasemapGallery";
 import Locate from "@arcgis/core/widgets/Locate";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
-
 //import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
 //import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
 
@@ -157,7 +156,7 @@ export default {
   data: function () {
     return {
       showImage: false,
-      roadDate: new Date(),
+      //roadDate: new Date(),
       expand: localStorage.getItem("expand")
         ? JSON.parse(localStorage.getItem("expand"))
         : true,
@@ -275,16 +274,15 @@ export default {
           height: 4,
         },
       },
+      
     };
   },
   mounted() {
+
     this.LoadDates();
     this.LoadData();
     this.cacheSnowDepth();
-    var d = new Date(document.getElementById("date-picker").value);
-    this.updateYear(d);
-    var where = this.buildTypeStatement(d);
-    this.setFeatureLayerFilter(where);
+
   },
   methods: {
     LoadData() {
@@ -306,13 +304,7 @@ export default {
       });
       /* eslint-enable no-unused-vars */
 
-      //this.nfsmvum = new FeatureLayer({
-      //  url: "https://apps.fs.usda.gov/arcx/rest/services/EDW/EDW_MVUM_01/MapServer/1",
-      //  //url: "https://apps.fs.usda.gov/fsgisx05/rest/services/wo_nfs_gtac/GTAC_IVMQuery_01/MapServer/1",
-      //  outFields: ["*"], // Return all fields so it can be queried client-side
-      //  opacity: 0.5,
-      //  renderer: this.roadRender,
-      //});
+    
       this.nfsmvum = new GeoJSONLayer({
         url: "./nfsmvum.geojson",
         outFields: ["*"], // Return all fields so it can be queried client-side
@@ -409,19 +401,9 @@ export default {
       }
 
       if (this.showNfsmvum) {
-        var MyDate = new Date();
-        var MyDateString;
-
-        MyDate.setDate(MyDate.getDate());
-
-        MyDateString =
-          MyDate.getFullYear() +
-          "-" +
-          ("0" + (MyDate.getMonth() + 1)).slice(-2) +
-          "-" +
-          ("0" + MyDate.getDate()).slice(-2);
-        document.getElementById("date-picker").value = MyDateString;
-        this.roadDate = MyDateString;
+        if(localStorage.getItem("fsFilter")){
+          this.nfsmvum.definitionExpression = localStorage.getItem("fsFilter");
+        }
         this.map.add(this.nfsmvum);
       }
 
@@ -429,9 +411,8 @@ export default {
         this.map.add(this.harvestLocations);
       }
 
-      //this.AddFilterButton();
       this.AddDatePicker();
-
+      
       var popupTrailheads = {
         title: "<b>Name:</b> {NAME}",
         content: this.contentChange,
@@ -498,10 +479,9 @@ export default {
       var _this = this;
       var skip = 0;
       var doLoop = true;
+      var values = [];
       while (doLoop) {
         await fetch(
-          //"https://apps.fs.usda.gov/fsgisx05/rest/services/wo_nfs_gtac/GTAC_IVMQuery_01/MapServer/1
-          //https://apps.fs.usda.gov/arcx/rest/services/EDW/EDW_MVUM_01/MapServer/1
           "https://apps.fs.usda.gov/arcx/rest/services/EDW/EDW_MVUM_01/MapServer/1/query?where=1%3D1&text=&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&relationParam=&outFields=PASSENGERVEHICLE_DATESOPEN&returnGeometry=false&returnTrueCurves=false&maxAllowableOffset=&geometryPrecision=&outSR=&having=&returnIdsOnly=false&returnCountOnly=false&orderByFields=PASSENGERVEHICLE_DATESOPEN&groupByFieldsForStatistics=&outStatistics=&returnZ=false&returnM=false&gdbVersion=&historicMoment=&returnDistinctValues=true&resultOffset=" +
             skip +
             "&resultRecordCount=&queryByDistance=&returnExtentOnly=false&datumTransformation=&parameterValues=&rangeValues=&quantizationParameters=&featureEncoding=esriDefault&f=pjson",
@@ -521,14 +501,21 @@ export default {
               doLoop = false;
             }
             skip += response.features.length;
-            localStorage.setItem("fsData", response.features);
-            _this.extraParsing(response.features, _this);
+            values = values.concat(response.features);
           })
           .catch((x) => {
-            this.extraParsing(localStorage.getItem("fsData"), _this);
+            doLoop = false;
             console.log(x);
           });
       }
+      if(values.length ==0){
+        _this.extraParsing(JSON.parse(localStorage.getItem("fsData")), _this);      
+      }else{
+      localStorage.setItem("fsData", JSON.stringify(values));
+      _this.extraParsing(values, _this);     
+      }
+      this.nfsmvum.definitionExpression = this.buildTypeStatement(new Date());
+      
     },
     extraParsing(items, _this) {
       items.forEach((x) => {
@@ -545,11 +532,23 @@ export default {
           }
         }
       });
-
-      var d = new Date();
-      _this.updateYear(d);
-      _this.buildTypeStatement(d);
     },
+       parseDate(str, fullString) {
+      var d = new Date();
+      //01/15-05-30
+      if (str && str.includes("/")) {
+        var all = str.split("-");
+        var start = all[0] + "/" + d.getFullYear();
+        var end = all[1] + "/" + d.getFullYear();
+        var l = {
+          StartDate: start,
+          EndDate: end,
+          FullString: fullString,
+        };
+        this.roadOpenings.push(l);
+      }
+    },
+
     adjustMarker() {
       const topRightScreenPt = this.view.toScreen({
         x: this.markerExtent.xmax,
@@ -584,33 +583,34 @@ export default {
     setFeatureLayerFilter(expression) {
       this.nfsmvum.definitionExpression = "";
       this.nfsmvum.definitionExpression = expression;
+      localStorage.setItem("fsFilter", expression);
     },
     AddDatePicker() {
       var _this = this;
-
       var dp = document.getElementById("date-picker");
-      dp.setAttribute("class", "esri-widget esri-date-picker");
-      dp.setAttribute(
-        "style",
-        "width: 200px; font-family: Avenir Next W00; font-size: 1em;"
-      );
-      var d = new Date();
+      var MyDate = new Date();
+        var MyDateString;
+        MyDate.setDate(MyDate.getDate());
 
-      dp.value = this.formatDate(d);
-
+        MyDateString =
+          MyDate.getFullYear() +
+          "-" +
+          ("0" + (MyDate.getMonth() + 1)).slice(-2) +
+          "-" +
+          ("0" + MyDate.getDate()).slice(-2);
+      dp.value = MyDateString;
+      dp.defaultValue = MyDateString;
       dp.addEventListener("change", function (event) {
         //update year
         var d = new Date(event.target.value);
         _this.updateYear(d);
-        _this.buildTypeStatement(d);
         var where = _this.buildTypeStatement(d);
         _this.setFeatureLayerFilter(where);
       });
-      //this.view.ui.add(dp, "top-right");
     },
+ 
     buildTypeStatement(filterDate) {
       var str = "";
-
       //TWOWD_GT50INCHES
       //TRACKED_OHV_LT50INCHES
       //TRACKED_OHV_GT50INCHES
@@ -640,21 +640,14 @@ export default {
         }
         var finished = this.buildWhereByType("ATV_DATESOPEN", filterDate);
         str += "ATV = 'open' and " + finished;
-        // str += ")";
-      } else {
-        //str += "ATV <> 'open'";
       }
+
       if (this.bus) {
         if (str.length > 0) {
           str += " and ";
         }
         var finished1 = this.buildWhereByType("BUS_DATESOPEN", filterDate);
         str += "BUS = 'open' and " + finished1;
-      } else {
-        //if (str.length > 0) {
-        //    str += " and ";
-        //}
-        //str += "BUS <> 'open'";
       }
 
       if (this.car) {
@@ -666,12 +659,6 @@ export default {
           filterDate
         );
         str += "PASSENGERVEHICLE = 'open' and " + finished2;
-        //str += ")";
-      } else {
-        //if (str.length > 0) {
-        //    str += " and ";
-        //}
-        //str += "PASSENGERVEHICLE <> 'open'";
       }
 
       if (this.semi) {
@@ -680,25 +667,15 @@ export default {
         }
         var finished3 = this.buildWhereByType("TRUCK_DATESOPEN", filterDate);
         str += "TRUCK = 'open' and " + finished3;
-        //str += ")";
-      } else {
-        //if (str.length > 0) {
-        //    str += " and ";
-        //}
-        //str += "TRUCK <> 'open'";
-      }
+      } 
 
-      //this.nfsmvum.definitionExpression = str;
-      // if(this.showNfsmvum) {
-      // this.map.add(this.nfsmvum);
-      // }
       return str;
     },
     buildWhereByType(type, filterDate) {
       var w = "(";
-      if (this.roadOpenings.length == 0) {
-        this.roadOpenings = JSON.parse(localStorage.getItem("roadOpenings"));
-      }
+      // if (this.roadOpenings.length == 0 && localStorage.getItem("this.roadOpenings")) {
+      //   this.roadOpenings = JSON.parse(localStorage.getItem("this.roadOpenings"));
+      // }
       var todayFilter = this.roadOpenings.filter(
         (x) =>
           new Date(x.StartDate) <= filterDate &&
@@ -712,37 +689,15 @@ export default {
       return w;
     },
     updateYear(d) {
-      if (this.roadOpenings.length == 0) {
-        this.roadOpenings = JSON.parse(localStorage.getItem("roadOpenings"));
-      }
+      // if (this.roadOpenings.length == 0 && localStorage.getItem("this.roadOpenings")) {
+      //   this.roadOpenings = JSON.parse(localStorage.getItem("this.roadOpenings"));
+      // }
       this.roadOpenings.forEach((x) => {
         x.StartDate = x.StartDate.slice(0, -4) + d.getFullYear();
         x.EndDate = x.EndDate.slice(0, -4) + d.getFullYear();
       });
     },
-    parseDate(str, fullString) {
-      var d = new Date();
-      //01/15-05-30
-      if (str && str.includes("/")) {
-        var all = str.split("-");
-        var start = all[0] + "/" + d.getFullYear();
-        var end = all[1] + "/" + d.getFullYear();
-        var l = {
-          StartDate: start,
-          EndDate: end,
-          FullString: fullString,
-        };
-        this.roadOpenings.push(l);
-      }
-      localStorage.setItem("roadOpenings", JSON.stringify(this.roadOpenings));
-    },
-    formatDate(date) {
-      return [
-        date.getFullYear(),
-        this.padTo2Digits(date.getMonth() + 1),
-        this.padTo2Digits(date.getDate()),
-      ].join("-");
-    },
+ 
     padTo2Digits(num) {
       return num.toString().padStart(2, "0");
     },
@@ -832,20 +787,6 @@ export default {
     showNfsmvum() {
       localStorage.setItem("showNfsmvum", JSON.stringify(this.showNfsmvum));
       if (this.showNfsmvum && this.map != null) {
-        var MyDate = new Date();
-        var MyDateString;
-
-        MyDate.setDate(MyDate.getDate() );
-
-        MyDateString =
-          MyDate.getFullYear() +
-          "-" +
-          ("0" + (MyDate.getMonth() + 1)).slice(-2) +
-          "-" +
-          ("0" + MyDate.getDate()).slice(-2);
-        document.getElementById("date-picker").value = MyDateString;
-        this.roadDate = MyDateString;
-        this.AddDatePicker();
         this.map.add(this.nfsmvum);
         return true;
       } else {
@@ -953,13 +894,10 @@ export default {
     expand() {
       localStorage.setItem("expand", JSON.stringify(this.expand));
     },
-    roadDate(){
-      var d = new Date(this.roadDate);
-        this.updateYear(d);
-        this.buildTypeStatement(d);
-        var where = this.buildTypeStatement(d);
-        this.setFeatureLayerFilter(where);
+    roadOpenings(){
+
     },
+
   },
   computed: {
     btnname: function () {
@@ -969,6 +907,7 @@ export default {
         return "Expand";
       }
     },
+    
   },
 };
 </script>
