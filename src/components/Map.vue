@@ -587,8 +587,12 @@ export default {
     },
     AddDatePicker() {
       var _this = this;
-      var dp = document.getElementById("date-picker");
-      var MyDate = new Date();
+      /* eslint-disable no-unused-vars */
+
+      const observer = new MutationObserver((mutations, obs) => {
+          const dp = document.getElementById("date-picker");
+          if(dp){
+var MyDate = new Date();
         var MyDateString;
         MyDate.setDate(MyDate.getDate());
 
@@ -600,13 +604,23 @@ export default {
           ("0" + MyDate.getDate()).slice(-2);
       dp.value = MyDateString;
       dp.defaultValue = MyDateString;
-      dp.addEventListener("change", function (event) {
+
+       dp.addEventListener("change", function (event) {
         //update year
         var d = new Date(event.target.value);
         _this.updateYear(d);
         var where = _this.buildTypeStatement(d);
         _this.setFeatureLayerFilter(where);
       });
+          }
+      });
+      observer.observe(document, {
+  childList: true,
+  subtree: true
+});
+/* eslint-enable no-unused-vars */
+
+     
     },
  
     buildTypeStatement(filterDate) {
