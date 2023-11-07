@@ -244,7 +244,7 @@ export default {
         ymax: 45.20055201379351,
       },
       imageUrl:
-        "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/NOHRSC_Snow_Analysis/MapServer/export?dpi=96&transparent=true&format=png32&layers=show%3A1%2C2%2C3%2C5%2C6%2C7&bbox=-11713368.533619583%2C5349926.441082417%2C-11261778.57051098%2C5602780.130649659&bboxSR=102100&imageSR=4326&size=1477%2C827&f=image",
+        "https://mapservices.weather.noaa.gov/raster/rest/services/snow/NOHRSC_Snow_Analysis/MapServer/export?dpi=96&transparent=true&format=png32&layers=show%3A1%2C2%2C3%2C5%2C6%2C7&bbox=-11713368.533619583%2C5349926.441082417%2C-11261778.57051098%2C5602780.130649659&bboxSR=102100&imageSR=4326&size=1477%2C827&f=image",
       renderer: {
         type: "heatmap",
         colorStops: [
@@ -313,7 +313,7 @@ export default {
       });
       this.snowDepth = new MapImageLayer({
         opacity: 0.5,
-        url: "https://idpgis.ncep.noaa.gov/arcgis/rest/services/NWS_Observations/NOHRSC_Snow_Analysis/MapServer",
+        url: "https://mapservices.weather.noaa.gov/raster/rest/services/snow/NOHRSC_Snow_Analysis/MapServer",
       });
 
       const point = new Point({
