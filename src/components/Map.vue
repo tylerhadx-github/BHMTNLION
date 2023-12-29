@@ -79,6 +79,13 @@
                     label="Years"
                   ></v-autocomplete>
                 </v-col>
+                <v-col cols="12" sm="4">
+                  <v-switch
+                    v-if="showMines"
+                    v-model="showMines"
+                    label="Mines"
+                  ></v-switch>
+                </v-col>
               </v-row>
             </v-card-text>
           </v-card>
@@ -111,6 +118,8 @@ import Search from "@arcgis/core/widgets/Search";
 import BasemapGallery from "@arcgis/core/widgets/BasemapGallery";
 import Locate from "@arcgis/core/widgets/Locate";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
+import WMSLayer from "@arcgis/core/layers/WMSLayer";
+
 //import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
 //import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
 
@@ -160,10 +169,12 @@ export default {
       expand: localStorage.getItem("expand")
         ? JSON.parse(localStorage.getItem("expand"))
         : true,
+      showMines: true,
       map: null,
       view: null,
       nfsmvum: null,
       snowDepth: null,
+      minesLayer: null,
       graphicLayer: null,
       gfp: null,
       harvestLocations: null,
@@ -316,6 +327,17 @@ export default {
         url: "https://mapservices.weather.noaa.gov/raster/rest/services/snow/NOHRSC_Snow_Analysis/MapServer",
       });
 
+      this.minesLayer = new MapImageLayer({
+        url: "https://mrdata.usgs.gov/services/usmin"
+      });
+
+        // Create a WMSLayer
+        this.minesLayer = new WMSLayer({
+          url: "https://mrdata.usgs.gov/services/usmin",
+          title: "Mines",
+//          layers: "LayerName", // Specify the name of the layer you want to load
+        });
+
       const point = new Point({
         x: -103.19455082423462,
         y: 44.070438441736194,
@@ -399,6 +421,8 @@ export default {
       if (this.showCachedSnowDepth) {
         this.map.add(this.graphicLayer);
       }
+
+      this.map.add(this.minesLayer);
 
       if (this.showNfsmvum) {
         if(localStorage.getItem("fsFilter")){
