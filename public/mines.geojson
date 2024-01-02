@@ -1,0 +1,2167 @@
+{
+    "type": "FeatureCollection",
+    "name": "SD-point",
+    "crs": {
+      "type": "name",
+      "properties": {
+        "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+      }
+    },
+    "features": [
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Cave",
+          "Collapsed": "null",
+          "ID": 1
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.9512578419999,
+            44.63369439500008
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Wind Cave",
+          "Collapsed": "null",
+          "ID": 2
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.47958131999991,
+            43.55800809500005
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Jewel Cave",
+          "Collapsed": "null",
+          "ID": 3
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.84341761799993,
+            43.73377259700004
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Tin Mountain Mine",
+          "Collapsed": "null",
+          "ID": 4
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.72059380699994,
+            43.74695813900007
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Jasper Cave",
+          "Collapsed": "null",
+          "ID": 5
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.8686901769999,
+            43.73705051400009
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "King Tut Mine",
+          "Collapsed": "null",
+          "ID": 6
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.76291037499993,
+            43.696954590000075
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Minnie May Mine",
+          "Collapsed": "null",
+          "ID": 7
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.6500159199999,
+            43.77879278900008
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Ivers Mine",
+          "Collapsed": "null",
+          "ID": 8
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.14384257199993,
+            45.59143560700005
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Mine Tunnel",
+          "Collapsed": "null",
+          "ID": 9
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.04170291399993,
+            44.34237400400008
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": null,
+          "Collapsed": "null",
+          "ID": 10
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.05396787899991,
+            44.37985917100008
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.74629190499991,
+            44.14789773600006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.02195687699992,
+            44.40552175500005
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.8445020019999,
+            44.34412235000008
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.64209041099991,
+            44.31699574400005
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Ice Cave",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.78876429799993,
+            44.26704470700008
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.64213609699993,
+            44.31623812400005
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.73036597099991,
+            44.35871645200007
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Cave",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.02054449499991,
+            44.36440924400006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.71004756399992,
+            44.37007710900008
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.7544107309999,
+            44.34900595600004
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.0511848619999,
+            44.37901779300006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.85021135999995,
+            44.14238726500008
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.74296166199991,
+            44.37001871100006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.79628595299994,
+            44.338856959000054
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.75552586499992,
+            44.345572909000055
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.84017899799994,
+            44.34578987600008
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.67156309699993,
+            44.32910231500006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.7966285949999,
+            44.33901876300007
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.72704177299994,
+            44.32337649900006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.75437646699993,
+            44.34852625600007
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.79093511199994,
+            44.36230291900006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.02144862699993,
+            44.39779505200005
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.74329478599992,
+            44.37095621900005
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.67261386699994,
+            44.32775458800006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Tinton Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.0493403029999,
+            44.37728649700006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.63214813499991,
+            44.33567985900004
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Giant Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.04930794299992,
+            44.376461300000074
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.05105541899991,
+            44.37880744900008
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.69106511199993,
+            44.331307123000045
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Wonderland Cave",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.5015203289999,
+            44.272400391000076
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Crystal Cave",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.50343722299993,
+            44.28744199600004
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Queen Bee Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.61399123199993,
+            44.02187466300006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Black Tunnel Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.7810257829999,
+            44.086096585000064
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Standby Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.71026008099994,
+            44.12025478700008
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.66855136599992,
+            44.05997297500005
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.73183738299991,
+            44.098757
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.70866381199994,
+            44.05703708500005
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Gap Lode Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.56001784699993,
+            43.86553295400006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Igloo Cave",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.89602135299992,
+            43.86923805100008
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.80491653199994,
+            44.10418984000006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.66645743999993,
+            44.06109132200004
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Nameless Cave",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.34917367299994,
+            44.05883671100008
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Diana Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.57073164699995,
+            44.08849704100004
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.3567100809999,
+            44.06085671500006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.73405884699991,
+            44.10185791300006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Crystal Cave",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.3058205179999,
+            43.96242101000007
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Beartrap Cave",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.90771164499995,
+            43.873531392000075
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Jenney Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.5525643119999,
+            44.09619239600005
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.70241371299994,
+            44.058090881000055
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Wildcat Cave",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.35759809599995,
+            44.06079960800008
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -99.45522105899994,
+            43.82915420100005
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Wabash Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.72604313599993,
+            43.76939286000004
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Western Star Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.74413602899995,
+            43.79158477100009
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Old Bull Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.64940479199993,
+            43.825891315000035
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Victory Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.56988309199994,
+            43.782680122000045
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Wild Rose Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.55544095399995,
+            43.79504162000006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Penobscott Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.72095710799994,
+            43.80798243000004
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.6727663399999,
+            43.848287595000045
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.02183373399993,
+            44.38024749900006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.05285143599991,
+            44.38018277700007
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.03431089899993,
+            44.37121347400006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.02081099399993,
+            44.34310831000005
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.0427498819999,
+            44.37461083000005
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.0289773049999,
+            44.363533603000064
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.01634860099995,
+            44.40265726200005
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.7437123169999,
+            44.335520494000036
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.84746395499991,
+            44.336619909000035
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Montana Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.74462489399991,
+            44.15965308600005
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.0203127829999,
+            44.406249297000045
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.05052146799994,
+            44.37871036700005
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.04705400499995,
+            44.36826345700007
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.0490488939999,
+            44.36788866000006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Rusty No 9 Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.04912995899991,
+            44.37537721800004
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.0384457589999,
+            44.37149154900004
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.04530092199991,
+            44.37429648400007
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.03593484899994,
+            44.355043686000045
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.68541005599991,
+            44.15841674200004
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.04979335299993,
+            44.37686580900004
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.04369336699995,
+            44.38751246900006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.02195313599992,
+            44.342327846000046
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.0999912,
+            44.250147817000084
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Golden West Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.7545975619999,
+            44.08162108100004
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.57666294099994,
+            43.923128759000065
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Sunbeam Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.6028252029999,
+            44.00688656500006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Eldorado Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.5173363689999,
+            43.93656478300005
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.7082876309999,
+            44.04313162600005
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.58327767299994,
+            44.11468546800006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Cuttys Ark Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.63892463299993,
+            44.08629579400008
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.7339332119999,
+            44.10236045600004
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "DIvide Lode Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.79108516899993,
+            44.09674636300008
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Yellow Bird Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.77460518099991,
+            44.09959671900003
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Clara Belle Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.59815029599991,
+            43.86739111500009
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "King of the Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.77369622599991,
+            44.09773122100006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "J R Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.5285335829999,
+            43.95418389800005
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Tiffel Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.6013574719999,
+            44.03207766100007
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Gold Mountain Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.60840098499995,
+            43.98537863200005
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Tin Mountain Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.72034168499994,
+            43.74687806700007
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Minnie May Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.64987352599991,
+            43.77876510100003
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Onyx Cave",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.5380379149999,
+            43.51875216800005
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.72980561999992,
+            43.69900478100004
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.01400199799991,
+            44.39637339800004
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.04168598599995,
+            44.342308492000086
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.01218282299993,
+            44.388534065000044
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.0138054439999,
+            44.39747231700005
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.04904021099992,
+            44.376994394000064
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.03255455499993,
+            44.39846574900008
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.01957131599994,
+            44.36386156000009
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.02312972499993,
+            44.40636502000007
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Gap Lode Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.5598678589999,
+            43.865361343000075
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Adit",
+          "FTR_NAME": "Crystal Cave",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.3058504139999,
+            43.96242088900004
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine",
+          "FTR_NAME": "Gilt Edge Maid Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.66473923599995,
+            44.33033498300006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine",
+          "FTR_NAME": "Golden Reward Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.80884288199991,
+            44.32673420000003
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine",
+          "FTR_NAME": "Golden Crest Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.67896234099993,
+            44.331832734000045
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine",
+          "FTR_NAME": "Flatiron Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.7552129149999,
+            44.32118414300004
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.6725856779999,
+            43.848228315000085
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Old Bill Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.64931596799994,
+            43.825852902000065
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Wild Rose Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.55508950699993,
+            43.79495572700006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Western Star Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.74407568399994,
+            43.79141873300006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Wabash Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.72598367199993,
+            43.769286597000075
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Victory Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.56975856799994,
+            43.782678452000084
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Penobscott Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.7208605589999,
+            43.807898510000086
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.02529016999995,
+            44.39941660800008
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.0244745039999,
+            44.39948420500008
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.04466436699994,
+            44.37464298300006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.01609803299993,
+            44.402959105000036
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.02146129199991,
+            44.34313344600008
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.0293422879999,
+            44.36429045700004
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.04647718399991,
+            44.36880520500006
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -104.03531908199994,
+            44.35513604100004
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Gold Mountain Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.6083563119999,
+            43.98536416200005
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "Clara Belle Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.59795071699995,
+            43.86724310100004
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": null,
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.5763960619999,
+            43.92310624800007
+          ]
+        }
+      },
+      {
+        "type": "Feature",
+        "properties": {
+          "FTR_TYPE": "Mine Shaft",
+          "FTR_NAME": "JR Mine",
+          "Collapsed": "null"
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [
+            -103.52838462599993,
+            43.95421821200006
+          ]
+        }
+      }
+    ]
+  }

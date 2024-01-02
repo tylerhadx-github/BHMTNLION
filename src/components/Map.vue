@@ -81,7 +81,6 @@
                 </v-col>
                 <v-col cols="12" sm="4">
                   <v-switch
-                    v-if="showMines"
                     v-model="showMines"
                     label="Mines"
                   ></v-switch>
@@ -118,7 +117,7 @@ import Search from "@arcgis/core/widgets/Search";
 import BasemapGallery from "@arcgis/core/widgets/BasemapGallery";
 import Locate from "@arcgis/core/widgets/Locate";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
-import WMSLayer from "@arcgis/core/layers/WMSLayer";
+// import WMSLayer from "@arcgis/core/layers/WMSLayer";
 
 //import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
 //import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
@@ -327,16 +326,12 @@ export default {
         url: "https://mapservices.weather.noaa.gov/raster/rest/services/snow/NOHRSC_Snow_Analysis/MapServer",
       });
 
-      this.minesLayer = new MapImageLayer({
-        url: "https://mrdata.usgs.gov/services/usmin"
-      });
+      this.minesLayer = new GeoJSONLayer({
+        url: "./mines.geojson",
+        outFields: ["*"], // Return all fields so it can be queried client-side
+        popupTemplate: this.createPopupTemplate(),
 
-        // Create a WMSLayer
-        this.minesLayer = new WMSLayer({
-          url: "https://mrdata.usgs.gov/services/usmin",
-          title: "Mines",
-//          layers: "LayerName", // Specify the name of the layer you want to load
-        });
+      });
 
       const point = new Point({
         x: -103.19455082423462,
@@ -802,6 +797,13 @@ var MyDate = new Date();
         dateParameter.getFullYear() === today.getFullYear()
       );
     },
+    createPopupTemplate() {
+      // Create a PopupTemplate for displaying information about the selected feature
+      return {
+        title: '{FTR_NAME}',
+        content: '{FTR_TYPE}<br/>Collapsed: {Collapsed}', // Add more fields as needed
+      };
+    },
   },
   watch: {
     roadType() {
@@ -829,6 +831,15 @@ var MyDate = new Date();
         return true;
       } else {
         this.map.remove(this.nfsmvum);
+        return false;
+      }
+    },
+    showMines(){
+      if (this.showMines && this.map != null) {
+        this.map.add(this.minesLayer);
+        return true;
+      } else {
+        this.map.remove(this.minesLayer);
         return false;
       }
     },
