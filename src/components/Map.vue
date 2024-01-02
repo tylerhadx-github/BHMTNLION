@@ -330,7 +330,15 @@ export default {
         url: "./mines.geojson",
         outFields: ["*"], // Return all fields so it can be queried client-side
         popupTemplate: this.createPopupTemplate(),
-
+        renderer: {
+          type: 'unique-value',
+        field: 'Collapsed',
+        defaultSymbol: this.createCustomMarkerSymbol(null), // Default symbol for null
+        uniqueValueInfos: [
+          { value: "true", symbol: this.createCustomMarkerSymbol(true) },   // Red for true
+          { value: "false", symbol: this.createCustomMarkerSymbol(false) }, // Green for false
+        ],
+          },
       });
 
       const point = new Point({
@@ -419,6 +427,7 @@ export default {
 
       this.map.add(this.minesLayer);
 
+
       if (this.showNfsmvum) {
         if(localStorage.getItem("fsFilter")){
           this.nfsmvum.definitionExpression = localStorage.getItem("fsFilter");
@@ -493,6 +502,28 @@ export default {
           _this.adjustMarker();
         }
       });
+    },
+    createCustomMarkerSymbol(collapsed) {
+      // Create and return a SimpleMarkerSymbol with dynamic color based on "Collapsed" field
+      let color;
+      switch (collapsed) {
+        case true:
+          color = [255, 0, 0]; // red
+          break;
+        case false:
+          color = [0, 255, 0]; // green
+          break;
+        default:
+          color = [255, 165, 0]; // orange
+          break;
+      }
+
+      return {
+        type: 'simple-marker',
+        style: 'circle',
+        color: color,
+        size: 10,
+      };
     },
     async LoadDates() {
       var _this = this;
@@ -801,7 +832,7 @@ var MyDate = new Date();
       // Create a PopupTemplate for displaying information about the selected feature
       return {
         title: '{FTR_NAME}',
-        content: '{FTR_TYPE}<br/>Collapsed: {Collapsed}', // Add more fields as needed
+        content: 'ID: {ID}<br/>Mine Type: {FTR_TYPE}<br/>Collapsed: {Collapsed}', // Add more fields as needed
       };
     },
   },
