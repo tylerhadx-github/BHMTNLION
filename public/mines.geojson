@@ -717,8 +717,9 @@
       "properties": {
         "FTR_TYPE": "Adit",
         "FTR_NAME": null,
-        "Collapsed": null,
-        "ID": 45
+        "Collapsed": false,
+        "ID": 45,
+"notes":"open about 50 ft"
       },
       "geometry": {
         "type": "Point",
@@ -813,7 +814,7 @@
       "properties": {
         "FTR_TYPE": "Adit",
         "FTR_NAME": null,
-        "Collapsed": null,
+        "Collapsed": true,
         "ID": 51
       },
       "geometry": {
