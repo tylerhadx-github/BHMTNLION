@@ -832,7 +832,7 @@ var MyDate = new Date();
       // Create a PopupTemplate for displaying information about the selected feature
       return {
         title: '{FTR_NAME}',
-        content: 'ID: {ID}<br/>Mine Type: {FTR_TYPE}<br/>Collapsed: {Collapsed}', // Add more fields as needed
+        content: 'ID: {ID}<br/>Mine Type: {FTR_TYPE}<br/>Collapsed: {Collapsed}<br />{notes}', // Add more fields as needed
       };
     },
   },
