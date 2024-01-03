@@ -717,7 +717,7 @@
       "properties": {
         "FTR_TYPE": "Adit",
         "FTR_NAME": null,
-        "Collapsed": false,
+        "Collapsed": "false",
         "ID": 45,
 "notes":"open about 50 ft"
       },
@@ -814,7 +814,7 @@
       "properties": {
         "FTR_TYPE": "Adit",
         "FTR_NAME": null,
-        "Collapsed": true,
+        "Collapsed": "true",
         "ID": 51
       },
       "geometry": {
