@@ -85,6 +85,12 @@
                     label="Mines"
                   ></v-switch>
                 </v-col>
+                <v-col cols="12" sm="4">
+                  <v-switch
+                    v-model="showCaves"
+                    label="Caves"
+                  ></v-switch>
+                </v-col>
               </v-row>
             </v-card-text>
           </v-card>
@@ -169,11 +175,13 @@ export default {
         ? JSON.parse(localStorage.getItem("expand"))
         : true,
       showMines: true,
+      showCaves: true,
       map: null,
       view: null,
       nfsmvum: null,
       snowDepth: null,
       minesLayer: null,
+      cavesLayer: null,
       graphicLayer: null,
       gfp: null,
       harvestLocations: null,
@@ -341,6 +349,21 @@ export default {
           },
       });
 
+      this.cavesLayer = new GeoJSONLayer({
+        url: "./caves.geojson",
+        outFields: ["*"], // Return all fields so it can be queried client-side
+        popupTemplate: this.createPopupTemplate(),
+        renderer: {
+          type: 'unique-value',
+        field: 'Open',
+        defaultSymbol: this.createCustomMarkerSymbol(null), // Default symbol for null
+        uniqueValueInfos: [
+          { value: "true", symbol: this.createCustomMarkerSymbol(false) },   // inverse for open
+          { value: "false", symbol: this.createCustomMarkerSymbol(true) }, 
+        ],
+          },
+      });
+
       const point = new Point({
         x: -103.19455082423462,
         y: 44.070438441736194,
@@ -426,7 +449,7 @@ export default {
       }
 
       this.map.add(this.minesLayer);
-
+      this.map.add(this.cavesLayer);
 
       if (this.showNfsmvum) {
         if(localStorage.getItem("fsFilter")){
@@ -871,6 +894,15 @@ var MyDate = new Date();
         return true;
       } else {
         this.map.remove(this.minesLayer);
+        return false;
+      }
+    },
+    showCaves(){
+      if (this.showCaves && this.map != null) {
+        this.map.add(this.cavesLayer);
+        return true;
+      } else {
+        this.map.remove(this.cavesLayer);
         return false;
       }
     },
