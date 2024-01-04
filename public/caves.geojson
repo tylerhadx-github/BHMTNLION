@@ -240,6 +240,36 @@
         ],
         "type": "Point"
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 16,
+        "Name": "Jasper Cave",
+        "Open": "null"
+      },
+      "geometry": {
+        "coordinates": [ 
+          -103.86886,
+          43.73752
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 17,
+        "Name": "Bear Trap Cave",
+        "Open": "null"
+      },
+      "geometry": {
+        "coordinates": [  
+         -103.90626,
+          43.87087
+        ],
+        "type": "Point"
+      }
     }
   ]
 }
