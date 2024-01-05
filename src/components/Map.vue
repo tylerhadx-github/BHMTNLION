@@ -13,18 +13,20 @@
               <v-switch v-model="showGfp" dense :label="`GFP`"></v-switch>
               <v-row>
                 <v-col>
-              <v-switch
-                v-model="showSnowDepth"
-                dense
-                :label="`Snow Depth`"
-              ></v-switch>
-              </v-col>
-              <v-col>
-                <v-btn @click="showImage = !showImage">Snow Depth Chart</v-btn>
-                <div v-if="showImage">
-                  <img src="Legend.png" alt="Snow Depth Map" />
-                </div>
-              </v-col>
+                  <v-switch
+                    v-model="showSnowDepth"
+                    dense
+                    :label="`Snow Depth`"
+                  ></v-switch>
+                </v-col>
+                <v-col>
+                  <v-btn @click="showImage = !showImage"
+                    >Snow Depth Chart</v-btn
+                  >
+                  <div v-if="showImage">
+                    <img src="Legend.png" alt="Snow Depth Map" />
+                  </div>
+                </v-col>
               </v-row>
               <v-row>
                 <v-col>
@@ -80,16 +82,38 @@
                   ></v-autocomplete>
                 </v-col>
                 <v-col cols="12" sm="4">
-                  <v-switch
-                    v-model="showMines"
-                    label="Mines"
-                  ></v-switch>
+                  <v-switch v-model="showMines" label="Mines"></v-switch>
+                  <v-btn @click="exportToONX">Export For Onx</v-btn>
+                  <div v-if="showMines">
+                  <v-col cols="3">
+                    <div
+                      class="legend-dot"
+                      style="background-color: orange"
+                    ></div>
+                  </v-col>
+                  <v-col cols="9">Unknown</v-col>
+                </div>
+                <div v-if="showMines">
+                  <v-col cols="3">
+                    <div
+                      class="legend-dot"
+                      style="background-color: green"
+                    ></div>
+                  </v-col>
+                  <v-col cols="9">Open</v-col>
+                </div>
+                <div v-if="showMines">
+                  <v-col cols="3">
+                    <div
+                      class="legend-dot"
+                      style="background-color: red"
+                    ></div>
+                  </v-col>
+                  <v-col cols="9">Collapsed</v-col>
+                </div>
                 </v-col>
                 <v-col cols="12" sm="4">
-                  <v-switch
-                    v-model="showCaves"
-                    label="Caves"
-                  ></v-switch>
+                  <v-switch v-model="showCaves" label="Caves"></v-switch>
                 </v-col>
               </v-row>
             </v-card-text>
@@ -123,18 +147,8 @@ import Search from "@arcgis/core/widgets/Search";
 import BasemapGallery from "@arcgis/core/widgets/BasemapGallery";
 import Locate from "@arcgis/core/widgets/Locate";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
-// import WMSLayer from "@arcgis/core/layers/WMSLayer";
+import togpx from 'togpx';
 
-//import SimpleRenderer from "@arcgis/core/renderers/SimpleRenderer";
-//import SimpleMarkerSymbol from "@arcgis/core/symbols/SimpleMarkerSymbol";
-
-//import FeatureLayer from "@arcgis/core/layers/FeatureLayer";
-//import MapImage from "@arcgis/core/layers/support/MapImage";
-//import DatePicker from "@arcgis/core/widgets/support/DatePicker";
-//import * as heatmapRendererCreator from "@arcgis/core/smartMapping/renderers/heatmap";
-/* eslint-disable no-unused-vars */
-//import * as harvestLayer from "../assets/harvestLocations.js";
-/* eslint-enable no-unused-vars */
 const gravel = {
   type: "simple-line", // autocasts as new SimpleLineSymbol()
   color: "blue",
@@ -292,15 +306,12 @@ export default {
           height: 4,
         },
       },
-      
     };
   },
   mounted() {
-
     this.LoadDates();
     this.LoadData();
     this.cacheSnowDepth();
-
   },
   methods: {
     LoadData() {
@@ -322,7 +333,6 @@ export default {
       });
       /* eslint-enable no-unused-vars */
 
-    
       this.nfsmvum = new GeoJSONLayer({
         url: "./nfsmvum.geojson",
         outFields: ["*"], // Return all fields so it can be queried client-side
@@ -339,29 +349,29 @@ export default {
         outFields: ["*"], // Return all fields so it can be queried client-side
         popupTemplate: this.createPopupTemplate(),
         renderer: {
-          type: 'unique-value',
-        field: 'Collapsed',
-        defaultSymbol: this.createCustomMarkerSymbol(null), // Default symbol for null
-        uniqueValueInfos: [
-          { value: "true", symbol: this.createCustomMarkerSymbol(true) },   // Red for true
-          { value: "false", symbol: this.createCustomMarkerSymbol(false) }, // Green for false
-        ],
-          },
+          type: "unique-value",
+          field: "Collapsed",
+          defaultSymbol: this.createCustomMarkerSymbol(null), // Default symbol for null
+          uniqueValueInfos: [
+            { value: "true", symbol: this.createCustomMarkerSymbol(true) }, // Red for true
+            { value: "false", symbol: this.createCustomMarkerSymbol(false) }, // Green for false
+          ],
+        },
       });
 
       this.cavesLayer = new GeoJSONLayer({
         url: "./caves.geojson",
         outFields: ["*"], // Return all fields so it can be queried client-side
-        popupTemplate: this.createPopupTemplate(),
+        popupTemplate: this.createCavePopupTemplate(),
         renderer: {
-          type: 'unique-value',
-        field: 'Open',
-        defaultSymbol: this.createCustomMarkerSymbol(null), // Default symbol for null
-        uniqueValueInfos: [
-          { value: "true", symbol: this.createCustomMarkerSymbol(false) },   // inverse for open
-          { value: "false", symbol: this.createCustomMarkerSymbol(true) }, 
-        ],
-          },
+          type: "unique-value",
+          field: "Open",
+          defaultSymbol: this.createCustomMarkerSymbol(null), // Default symbol for null
+          uniqueValueInfos: [
+            { value: "true", symbol: this.createCustomMarkerSymbol(false) }, // inverse for open
+            { value: "false", symbol: this.createCustomMarkerSymbol(true) },
+          ],
+        },
       });
 
       const point = new Point({
@@ -452,7 +462,7 @@ export default {
       this.map.add(this.cavesLayer);
 
       if (this.showNfsmvum) {
-        if(localStorage.getItem("fsFilter")){
+        if (localStorage.getItem("fsFilter")) {
           this.nfsmvum.definitionExpression = localStorage.getItem("fsFilter");
         }
         this.map.add(this.nfsmvum);
@@ -463,7 +473,7 @@ export default {
       }
 
       this.AddDatePicker();
-      
+
       var popupTrailheads = {
         title: "<b>Name:</b> {NAME}",
         content: this.contentChange,
@@ -542,8 +552,8 @@ export default {
       }
 
       return {
-        type: 'simple-marker',
-        style: 'circle',
+        type: "simple-marker",
+        style: "circle",
         color: color,
         size: 10,
       };
@@ -581,14 +591,13 @@ export default {
             console.log(x);
           });
       }
-      if(values.length ==0){
-        _this.extraParsing(JSON.parse(localStorage.getItem("fsData")), _this);      
-      }else{
-      localStorage.setItem("fsData", JSON.stringify(values));
-      _this.extraParsing(values, _this);     
+      if (values.length == 0) {
+        _this.extraParsing(JSON.parse(localStorage.getItem("fsData")), _this);
+      } else {
+        localStorage.setItem("fsData", JSON.stringify(values));
+        _this.extraParsing(values, _this);
       }
       this.nfsmvum.definitionExpression = this.buildTypeStatement(new Date());
-      
     },
     extraParsing(items, _this) {
       items.forEach((x) => {
@@ -606,7 +615,7 @@ export default {
         }
       });
     },
-       parseDate(str, fullString) {
+    parseDate(str, fullString) {
       var d = new Date();
       //01/15-05-30
       if (str && str.includes("/")) {
@@ -663,39 +672,37 @@ export default {
       /* eslint-disable no-unused-vars */
 
       const observer = new MutationObserver((mutations, obs) => {
-          const dp = document.getElementById("date-picker");
-          if(dp){
-var MyDate = new Date();
-        var MyDateString;
-        MyDate.setDate(MyDate.getDate());
+        const dp = document.getElementById("date-picker");
+        if (dp) {
+          var MyDate = new Date();
+          var MyDateString;
+          MyDate.setDate(MyDate.getDate());
 
-        MyDateString =
-          MyDate.getFullYear() +
-          "-" +
-          ("0" + (MyDate.getMonth() + 1)).slice(-2) +
-          "-" +
-          ("0" + MyDate.getDate()).slice(-2);
-      dp.value = MyDateString;
-      dp.defaultValue = MyDateString;
+          MyDateString =
+            MyDate.getFullYear() +
+            "-" +
+            ("0" + (MyDate.getMonth() + 1)).slice(-2) +
+            "-" +
+            ("0" + MyDate.getDate()).slice(-2);
+          dp.value = MyDateString;
+          dp.defaultValue = MyDateString;
 
-       dp.addEventListener("change", function (event) {
-        //update year
-        var d = new Date(event.target.value);
-        _this.updateYear(d);
-        var where = _this.buildTypeStatement(d);
-        _this.setFeatureLayerFilter(where);
-      });
-          }
+          dp.addEventListener("change", function (event) {
+            //update year
+            var d = new Date(event.target.value);
+            _this.updateYear(d);
+            var where = _this.buildTypeStatement(d);
+            _this.setFeatureLayerFilter(where);
+          });
+        }
       });
       observer.observe(document, {
-  childList: true,
-  subtree: true
-});
-/* eslint-enable no-unused-vars */
-
-     
+        childList: true,
+        subtree: true,
+      });
+      /* eslint-enable no-unused-vars */
     },
- 
+
     buildTypeStatement(filterDate) {
       var str = "";
       //TWOWD_GT50INCHES
@@ -754,7 +761,7 @@ var MyDate = new Date();
         }
         var finished3 = this.buildWhereByType("TRUCK_DATESOPEN", filterDate);
         str += "TRUCK = 'open' and " + finished3;
-      } 
+      }
 
       return str;
     },
@@ -784,7 +791,7 @@ var MyDate = new Date();
         x.EndDate = x.EndDate.slice(0, -4) + d.getFullYear();
       });
     },
- 
+
     padTo2Digits(num) {
       return num.toString().padStart(2, "0");
     },
@@ -854,9 +861,50 @@ var MyDate = new Date();
     createPopupTemplate() {
       // Create a PopupTemplate for displaying information about the selected feature
       return {
-        title: '{FTR_NAME}',
-        content: 'ID: {ID}<br/>Mine Type: {FTR_TYPE}<br/>Collapsed: {Collapsed}<br />{notes}', // Add more fields as needed
+        title: "{FTR_NAME}",
+        content:
+          "ID: {ID}<br/>Mine Type: {FTR_TYPE}<br/>Collapsed: {Collapsed}<br />{notes}", // Add more fields as needed
       };
+    },
+    createCavePopupTemplate() {
+      // Create a PopupTemplate for displaying information about the selected feature
+      return {
+        title: "{Name}",
+        content: "ID: {ID}<br/>Open: {Open}<br />{notes}", // Add more fields as needed
+      };
+    },
+    async exportToONX(){
+      try {
+        // Fetch mines GeoJSON
+        const minesResponse = await fetch('/mines.geojson');
+        const minesGeoJSON = await minesResponse.json();
+
+        // Fetch caves GeoJSON
+        const cavesResponse = await fetch('/caves.geojson');
+        const cavesGeoJSON = await cavesResponse.json();
+
+        // Convert GeoJSON to GPX
+        const minesGPX = togpx(minesGeoJSON);
+        const cavesGPX = togpx(cavesGeoJSON);
+
+        // Combine GPX data if needed
+        //const combinedGPX = minesGPX + cavesGPX;
+
+        // Trigger download
+        this.downloadFile(cavesGPX, 'caves.gpx');
+        this.downloadFile(minesGPX, 'mines.gpx');
+      } catch (error) {
+        console.error('Error exporting to ONX:', error);
+      }
+    },
+    downloadFile(data, filename) {
+      const blob = new Blob([data], { type: 'application/gpx+xml' });
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = filename;
+
+      // Trigger the download
+      link.click();
     },
   },
   watch: {
@@ -888,7 +936,7 @@ var MyDate = new Date();
         return false;
       }
     },
-    showMines(){
+    showMines() {
       if (this.showMines && this.map != null) {
         this.map.add(this.minesLayer);
         return true;
@@ -897,7 +945,7 @@ var MyDate = new Date();
         return false;
       }
     },
-    showCaves(){
+    showCaves() {
       if (this.showCaves && this.map != null) {
         this.map.add(this.cavesLayer);
         return true;
@@ -1006,10 +1054,7 @@ var MyDate = new Date();
     expand() {
       localStorage.setItem("expand", JSON.stringify(this.expand));
     },
-    roadOpenings(){
-
-    },
-
+    roadOpenings() {},
   },
   computed: {
     btnname: function () {
@@ -1019,10 +1064,16 @@ var MyDate = new Date();
         return "Expand";
       }
     },
-    
   },
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped></style>
+<style scoped>
+.legend-dot {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+</style>

@@ -6,7 +6,8 @@
       "properties": {
         "ID": 0,
         "Name": "Camp Five",
-        "Open": "null"
+        "Open": "null",
+        "Notes": ""
       },
       "geometry": {
         "coordinates": [
@@ -21,7 +22,8 @@
       "properties": {
         "ID": 1,
         "Name": "Cave Draw",
-        "Open": "null"
+        "Open": "null",
+        "Notes": ""
       },
       "geometry": {
         "coordinates": [
@@ -36,7 +38,8 @@
       "properties": {
         "ID": 2,
         "Name": "Community Wildcat Cave",
-        "Open": "null"
+        "Open": "null",
+        "Notes": ""
       },
       "geometry": {
         "coordinates": [
@@ -51,7 +54,8 @@
       "properties": {
         "ID": 3,
         "Name": "Custers Cooler Cave",
-        "Open": "null"
+        "Open": "null",
+        "Notes": ""
       },
       "geometry": {
         "coordinates": [
@@ -66,7 +70,8 @@
       "properties": {
         "ID": 4,
         "Name": "Erkskine Cave",
-        "Open": "null"
+        "Open": "null",
+        "Notes": ""
       },
       "geometry": {
         "coordinates": [
@@ -81,7 +86,8 @@
       "properties": {
         "ID": 5,
         "Name": "Flume Long Tunnel A",
-        "Open": "null"
+        "Open": "null",
+        "Notes": ""
       },
       "geometry": {
         "coordinates": [
@@ -96,7 +102,8 @@
       "properties": {
         "ID": 6,
         "Name": "Limestone Cave",
-        "Open": "null"
+        "Open": "null",
+        "Notes": ""
       },
       "geometry": {
         "coordinates": [
@@ -111,7 +118,8 @@
       "properties": {
         "ID": 7,
         "Name": "Horsethief  Cave",
-        "Open": "null"
+        "Open": "null",
+        "Notes": ""
       },
       "geometry": {
         "coordinates": [
@@ -126,7 +134,8 @@
       "properties": {
         "ID": 8,
         "Name": "Ice  Cave",
-        "Open": "null"
+        "Open": "null",
+        "Notes": ""
       },
       "geometry": {
         "coordinates": [
@@ -141,7 +150,8 @@
       "properties": {
         "ID": 9,
         "Name": "Igloo  Cave",
-        "Open": "null"
+        "Open": "null",
+        "Notes": ""
       },
       "geometry": {
         "coordinates": [
@@ -156,7 +166,8 @@
       "properties": {
         "ID": 10,
         "Name": "Iron Creek Cave",
-        "Open": "null"
+        "Open": "null",
+        "Notes": ""
       },
       "geometry": {
         "coordinates": [
@@ -171,7 +182,8 @@
       "properties": {
         "ID": 11,
         "Name": "Jump Off Cave",
-        "Open": "null"
+        "Open": "null",
+        "Notes": ""
       },
       "geometry": {
         "coordinates": [
@@ -186,7 +198,8 @@
       "properties": {
         "ID": 12,
         "Name": "Miners Hotel Cave",
-        "Open": "null"
+        "Open": "null",
+        "Notes": ""
       },
       "geometry": {
         "coordinates": [
@@ -201,7 +214,8 @@
       "properties": {
         "ID": 13,
         "Name": "Onyx Cave",
-        "Open": "null"
+        "Open": "null",
+        "Notes": ""
       },
       "geometry": {
         "coordinates": [
@@ -216,7 +230,8 @@
       "properties": {
         "ID": 14,
         "Name": "S & G Caves",
-        "Open": "null"
+        "Open": "null",
+        "Notes": ""
       },
       "geometry": {
         "coordinates": [
@@ -231,7 +246,8 @@
       "properties": {
         "ID": 15,
         "Name": "Timon Cave",
-        "Open": "null"
+        "Open": "null",
+        "Notes": ""
       },
       "geometry": {
         "coordinates": [
@@ -246,10 +262,11 @@
       "properties": {
         "ID": 16,
         "Name": "Jasper Cave",
-        "Open": "null"
+        "Open": "null",
+        "Notes": ""
       },
       "geometry": {
-        "coordinates": [ 
+        "coordinates": [
           -103.86886,
           43.73752
         ],
@@ -261,11 +278,12 @@
       "properties": {
         "ID": 17,
         "Name": "Bear Trap Cave",
-        "Open": "null"
+        "Open": "null",
+        "Notes": ""
       },
       "geometry": {
-        "coordinates": [  
-         -103.90626,
+        "coordinates": [
+          -103.90626,
           43.87087
         ],
         "type": "Point"
