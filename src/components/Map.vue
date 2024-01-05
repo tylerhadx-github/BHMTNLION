@@ -876,11 +876,11 @@ export default {
     async exportToONX(){
       try {
         // Fetch mines GeoJSON
-        const minesResponse = await fetch('/mines.geojson');
+        const minesResponse = await fetch('mines.geojson');
         const minesGeoJSON = await minesResponse.json();
 
         // Fetch caves GeoJSON
-        const cavesResponse = await fetch('/caves.geojson');
+        const cavesResponse = await fetch('caves.geojson');
         const cavesGeoJSON = await cavesResponse.json();
 
         // Convert GeoJSON to GPX
