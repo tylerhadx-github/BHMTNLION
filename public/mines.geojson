@@ -2296,6 +2296,22 @@
           43.95421821200006
         ]
       }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "FTR_TYPE": "Mine Shaft",
+        "FTR_NAME": "'No Name' Mine",
+        "Collapsed": "false",
+        "ID": 142
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -103.69379,
+          44.02384 
+        ]
+      }
     }
   ]
 }
