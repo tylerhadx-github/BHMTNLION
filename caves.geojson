@@ -1,0 +1,293 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 0,
+        "Name": "Camp Five",
+        "Open": "null",
+        "Notes": ""
+      },
+      "geometry": {
+        "coordinates": [
+          -103.60109,
+          44.35443
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 1,
+        "Name": "Cave Draw",
+        "Open": "null",
+        "Notes": ""
+      },
+      "geometry": {
+        "coordinates": [
+          -104.0076,
+          43.9714
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 2,
+        "Name": "Community Wildcat Cave",
+        "Open": "null",
+        "Notes": ""
+      },
+      "geometry": {
+        "coordinates": [
+          -103.867489,
+          44.432697
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 3,
+        "Name": "Custers Cooler Cave",
+        "Open": "null",
+        "Notes": ""
+      },
+      "geometry": {
+        "coordinates": [
+          -104.061548,
+          44.157938
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 4,
+        "Name": "Erkskine Cave",
+        "Open": "null",
+        "Notes": ""
+      },
+      "geometry": {
+        "coordinates": [
+          -103.428517,
+          44.178333
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 5,
+        "Name": "Flume Long Tunnel A",
+        "Open": "null",
+        "Notes": ""
+      },
+      "geometry": {
+        "coordinates": [
+          -103.44382,
+          43.97715
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 6,
+        "Name": "Limestone Cave",
+        "Open": "null",
+        "Notes": ""
+      },
+      "geometry": {
+        "coordinates": [
+          -103.6995,
+          43.6488
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 7,
+        "Name": "Horsethief  Cave",
+        "Open": "null",
+        "Notes": ""
+      },
+      "geometry": {
+        "coordinates": [
+          -103.414917,
+          44.18935
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 8,
+        "Name": "Ice  Cave",
+        "Open": "null",
+        "Notes": ""
+      },
+      "geometry": {
+        "coordinates": [
+          -103.915667,
+          43.87923
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 9,
+        "Name": "Igloo  Cave",
+        "Open": "null",
+        "Notes": ""
+      },
+      "geometry": {
+        "coordinates": [
+          -103.896013,
+          43.868987
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 10,
+        "Name": "Iron Creek Cave",
+        "Open": "null",
+        "Notes": ""
+      },
+      "geometry": {
+        "coordinates": [
+          -103.924444,
+          44.373056
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 11,
+        "Name": "Jump Off Cave",
+        "Open": "null",
+        "Notes": ""
+      },
+      "geometry": {
+        "coordinates": [
+          -103.926981,
+          43.671109
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 12,
+        "Name": "Miners Hotel Cave",
+        "Open": "null",
+        "Notes": ""
+      },
+      "geometry": {
+        "coordinates": [
+          -103.6251,
+          44.068583
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 13,
+        "Name": "Onyx Cave",
+        "Open": "null",
+        "Notes": ""
+      },
+      "geometry": {
+        "coordinates": [
+          -103.551435,
+          43.505279
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 14,
+        "Name": "S & G Caves",
+        "Open": "null",
+        "Notes": ""
+      },
+      "geometry": {
+        "coordinates": [
+          -103.7568,
+          43.6501
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 15,
+        "Name": "Timon Cave",
+        "Open": "null",
+        "Notes": ""
+      },
+      "geometry": {
+        "coordinates": [
+          -103.987877,
+          44.329042
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 16,
+        "Name": "Jasper Cave",
+        "Open": "null",
+        "Notes": ""
+      },
+      "geometry": {
+        "coordinates": [
+          -103.86886,
+          43.73752
+        ],
+        "type": "Point"
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "ID": 17,
+        "Name": "Bear Trap Cave",
+        "Open": "null",
+        "Notes": ""
+      },
+      "geometry": {
+        "coordinates": [
+          -103.90626,
+          43.87087
+        ],
+        "type": "Point"
+      }
+    }
+  ]
+}
