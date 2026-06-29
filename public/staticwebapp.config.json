@@ -1,0 +1,23 @@
+{
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": [
+      "/assets/*",
+      "/img/*",
+      "/*.{geojson,png,jpg,jpeg,gif,ico,svg,txt,json,webmanifest,woff,woff2,ttf,eot}"
+    ]
+  },
+  "routes": [
+    {
+      "route": "/assets/*",
+      "headers": { "Cache-Control": "public, max-age=31536000, immutable" }
+    },
+    {
+      "route": "/index.html",
+      "headers": { "Cache-Control": "no-cache, no-store, must-revalidate" }
+    }
+  ],
+  "mimeTypes": {
+    ".geojson": "application/geo+json"
+  }
+}

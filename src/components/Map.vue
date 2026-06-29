@@ -4,27 +4,33 @@
       <v-row>
         <v-col>
           <v-card>
-            <v-card-title>
-              <span class="headline">Map Filters</span>
+            <v-card-title class="d-flex align-center">
+              <span class="text-h6">Map Filters</span>
               <v-spacer></v-spacer>
               <v-btn @click="expand = !expand">{{ btnname }}</v-btn>
             </v-card-title>
             <v-card-text v-if="expand">
-              <v-switch v-model="showGfp" dense :label="`GFP`"></v-switch>
+              <v-switch
+                v-model="showGfp"
+                color="primary"
+                density="compact"
+                hide-details
+                :label="`GFP`"
+              ></v-switch>
               <v-row>
                 <v-col>
                   <v-switch
                     v-model="showSnowDepth"
-                    dense
+                    color="primary"
+                    density="compact"
+                    hide-details
                     :label="`Snow Depth`"
                   ></v-switch>
                 </v-col>
                 <v-col>
-                  <v-btn @click="showImage = !showImage"
-                    >Snow Depth Chart</v-btn
-                  >
+                  <v-btn @click="showImage = !showImage">Snow Depth Chart</v-btn>
                   <div v-if="showImage">
-                    <img src="Legend.png" alt="Snow Depth Map" />
+                    <img :src="legendUrl" alt="Snow Depth Map" />
                   </div>
                 </v-col>
               </v-row>
@@ -32,7 +38,9 @@
                 <v-col>
                   <v-switch
                     v-model="showCachedSnowDepth"
-                    dense
+                    color="primary"
+                    density="compact"
+                    hide-details
                     :label="`Cached Snow Depth`"
                   ></v-switch>
                 </v-col>
@@ -44,7 +52,9 @@
                 <v-col>
                   <v-switch
                     v-model="showNfsmvum"
-                    dense
+                    color="primary"
+                    density="compact"
+                    hide-details
                     :label="`Road Map`"
                   ></v-switch>
                 </v-col>
@@ -61,7 +71,9 @@
                 <v-col cols="6" sm="4">
                   <v-switch
                     v-model="showHarvestLocations"
-                    dense
+                    color="primary"
+                    density="compact"
+                    hide-details
                     :label="`Harvest Locations`"
                   ></v-switch>
                 </v-col>
@@ -69,6 +81,9 @@
                   <v-switch
                     v-if="showHarvestLocations"
                     v-model="showHeatmap"
+                    color="primary"
+                    density="compact"
+                    hide-details
                     label="Heatmap"
                   ></v-switch>
                 </v-col>
@@ -77,43 +92,48 @@
                     v-if="showHarvestLocations"
                     v-model="selectedYears"
                     :items="years"
-                    :multiple="true"
+                    multiple
+                    density="compact"
+                    hide-details
                     label="Years"
                   ></v-autocomplete>
                 </v-col>
                 <v-col cols="12" sm="4">
-                  <v-switch v-model="showMines" label="Mines"></v-switch>
+                  <v-switch
+                    v-model="showMines"
+                    color="primary"
+                    density="compact"
+                    hide-details
+                    label="Mines"
+                  ></v-switch>
                   <v-btn @click="exportToONX">Export For Onx</v-btn>
                   <div v-if="showMines">
-                  <v-col cols="3">
-                    <div
-                      class="legend-dot"
-                      style="background-color: orange"
-                    ></div>
-                  </v-col>
-                  <v-col cols="9">Unknown</v-col>
-                </div>
-                <div v-if="showMines">
-                  <v-col cols="3">
-                    <div
-                      class="legend-dot"
-                      style="background-color: green"
-                    ></div>
-                  </v-col>
-                  <v-col cols="9">Open</v-col>
-                </div>
-                <div v-if="showMines">
-                  <v-col cols="3">
-                    <div
-                      class="legend-dot"
-                      style="background-color: red"
-                    ></div>
-                  </v-col>
-                  <v-col cols="9">Collapsed</v-col>
-                </div>
-                </v-col>
-                <v-col cols="12" sm="4">
-                  <v-switch v-model="showCaves" label="Caves"></v-switch>
+                    <v-col cols="3">
+                      <div
+                        class="legend-dot"
+                        style="background-color: orange"
+                      ></div>
+                    </v-col>
+                    <v-col cols="9">Unknown</v-col>
+                  </div>
+                  <div v-if="showMines">
+                    <v-col cols="3">
+                      <div
+                        class="legend-dot"
+                        style="background-color: green"
+                      ></div>
+                    </v-col>
+                    <v-col cols="9">Open</v-col>
+                  </div>
+                  <div v-if="showMines">
+                    <v-col cols="3">
+                      <div
+                        class="legend-dot"
+                        style="background-color: red"
+                      ></div>
+                    </v-col>
+                    <v-col cols="9">Collapsed</v-col>
+                  </div>
                 </v-col>
               </v-row>
             </v-card-text>
@@ -123,11 +143,9 @@
     </v-container>
 
     <v-progress-linear indeterminate v-if="loading"></v-progress-linear>
-    <!-- <input type="button" id="filterButton" value="Apply Above Filters" /> -->
     <div
       id="viewDiv"
-      :width="'100%'"
-      style="align-content: center; height: 80vh"
+      style="align-content: center; height: 80vh; width: 100%"
     ></div>
   </div>
 </template>
@@ -183,19 +201,18 @@ export default {
   props: {},
   data: function () {
     return {
+      legendUrl: import.meta.env.BASE_URL + "Legend.png",
       showImage: false,
       //roadDate: new Date(),
       expand: localStorage.getItem("expand")
         ? JSON.parse(localStorage.getItem("expand"))
         : true,
       showMines: true,
-      showCaves: true,
       map: null,
       view: null,
       nfsmvum: null,
       snowDepth: null,
       minesLayer: null,
-      cavesLayer: null,
       graphicLayer: null,
       gfp: null,
       harvestLocations: null,
@@ -359,21 +376,6 @@ export default {
         },
       });
 
-      this.cavesLayer = new GeoJSONLayer({
-        url: "./caves.geojson",
-        outFields: ["*"], // Return all fields so it can be queried client-side
-        popupTemplate: this.createCavePopupTemplate(),
-        renderer: {
-          type: "unique-value",
-          field: "Open",
-          defaultSymbol: this.createCustomMarkerSymbol(null), // Default symbol for null
-          uniqueValueInfos: [
-            { value: "true", symbol: this.createCustomMarkerSymbol(false) }, // inverse for open
-            { value: "false", symbol: this.createCustomMarkerSymbol(true) },
-          ],
-        },
-      });
-
       const point = new Point({
         x: -103.19455082423462,
         y: 44.070438441736194,
@@ -459,7 +461,6 @@ export default {
       }
 
       this.map.add(this.minesLayer);
-      this.map.add(this.cavesLayer);
 
       if (this.showNfsmvum) {
         if (localStorage.getItem("fsFilter")) {
@@ -866,32 +867,16 @@ export default {
           "ID: {ID}<br/>Mine Type: {FTR_TYPE}<br/>Collapsed: {Collapsed}<br />{notes}", // Add more fields as needed
       };
     },
-    createCavePopupTemplate() {
-      // Create a PopupTemplate for displaying information about the selected feature
-      return {
-        title: "{Name}",
-        content: "ID: {ID}<br/>Open: {Open}<br />{notes}", // Add more fields as needed
-      };
-    },
     async exportToONX(){
       try {
         // Fetch mines GeoJSON
         const minesResponse = await fetch('mines.geojson');
         const minesGeoJSON = await minesResponse.json();
 
-        // Fetch caves GeoJSON
-        const cavesResponse = await fetch('caves.geojson');
-        const cavesGeoJSON = await cavesResponse.json();
-
         // Convert GeoJSON to GPX
         const minesGPX = togpx(minesGeoJSON);
-        const cavesGPX = togpx(cavesGeoJSON);
-
-        // Combine GPX data if needed
-        //const combinedGPX = minesGPX + cavesGPX;
 
         // Trigger download
-        this.downloadFile(cavesGPX, 'caves.gpx');
         this.downloadFile(minesGPX, 'mines.gpx');
       } catch (error) {
         console.error('Error exporting to ONX:', error);
@@ -942,15 +927,6 @@ export default {
         return true;
       } else {
         this.map.remove(this.minesLayer);
-        return false;
-      }
-    },
-    showCaves() {
-      if (this.showCaves && this.map != null) {
-        this.map.add(this.cavesLayer);
-        return true;
-      } else {
-        this.map.remove(this.cavesLayer);
         return false;
       }
     },

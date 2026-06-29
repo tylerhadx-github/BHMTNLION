@@ -1,11 +1,37 @@
-// src/plugins/vuetify.js
+// Styles
+import '@mdi/font/css/materialdesignicons.css'
+import 'vuetify/styles'
 
-import Vue from 'vue'
-import Vuetify from 'vuetify'
-import 'vuetify/dist/vuetify.min.css'
+// Vuetify
+import { createVuetify } from 'vuetify'
 
-Vue.use(Vuetify)
-
-const opts = {}
-
-export default new Vuetify(opts)
+// https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
+export default createVuetify({
+  theme: {
+    defaultTheme: 'lionDark',
+    themes: {
+      lionDark: {
+        dark: true,
+        colors: {
+          background: '#0b0b10',
+          surface: '#14141c',
+          'surface-bright': '#1c1c28',
+          primary: '#ffb454',
+          'primary-darken-1': '#e89a3c',
+          secondary: '#3ddc97',
+          accent: '#ffb454',
+          info: '#5ab0ff',
+          success: '#3ddc97',
+          warning: '#ffb454',
+          error: '#ff5d73',
+          'on-background': '#f4f4f8',
+          'on-surface': '#f4f4f8',
+        },
+        variables: {
+          'border-color': '#ffffff',
+          'theme-on-surface-variant': '#a7a7b4',
+        },
+      },
+    },
+  },
+})

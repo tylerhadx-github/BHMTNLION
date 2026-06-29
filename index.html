@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Black Hills Mountain Lion - Scouting Map</title>
+
+    <meta name="description"
+        content="Years of South Dakota GFP mountain lion harvest data turned into an interactive Black Hills scouting map - harvest heatmaps, snow depth, roads, mines, and onX export." />
+    <meta name="theme-color" content="#0b0b10" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/img/icons/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/css/main.css">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-JVLWRZE2ES"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-JVLWRZE2ES');
+    </script>
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        html,
+        body,
+        #app {
+            margin: 0;
+            background-color: #0b0b10;
+            color: #f4f4f8;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        section[id] {
+            scroll-margin-top: 80px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <noscript>
+        <strong>This app needs JavaScript enabled to run. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+</body>
+
+</html>
