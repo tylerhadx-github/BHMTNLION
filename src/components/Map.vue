@@ -291,6 +291,30 @@ export default {
     onRemoveChip(key) {
       this[key] = false;
     },
+    // Restyle the public-land vector tiles as crisp outlines instead of solid
+    // fills, so the GFP layer reads as boundaries over the imagery.
+    async applyGfpOutlineStyle() {
+      const url =
+        "https://tiles.arcgis.com/tiles/jWPBXspaQsJStWX8/arcgis/rest/services/Public_Lands/VectorTileServer";
+      try {
+        await this.gfp.when();
+        let styleLayers = this.gfp.currentStyleInfo?.style?.layers;
+        if (!styleLayers || !styleLayers.length) {
+          const res = await fetch(url + "/resources/styles/root.json");
+          styleLayers = (await res.json()).layers;
+        }
+        styleLayers.forEach((styleLayer) => {
+          if (styleLayer.type === "fill") {
+            this.gfp.setPaintProperties(styleLayer.id, {
+              "fill-color": "rgba(255, 180, 84, 0.07)",
+              "fill-outline-color": "#ffb454",
+            });
+          }
+        });
+      } catch (error) {
+        console.warn("Unable to apply GFP outline style", error);
+      }
+    },
     LoadData() {
       var component = this;
 
@@ -380,10 +404,11 @@ export default {
 
       this.gfp = markRaw(
         new VectorTileLayer({
-          opacity: 0.5,
+          opacity: 0.9,
           url: "https://tiles.arcgis.com/tiles/jWPBXspaQsJStWX8/arcgis/rest/services/Public_Lands/VectorTileServer",
         })
       );
+      this.applyGfpOutlineStyle();
 
       this.harvestLocations = markRaw(
         new GeoJSONLayer({
