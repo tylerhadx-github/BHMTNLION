@@ -151,6 +151,7 @@
 </template>
 
 <script>
+import { markRaw } from "vue";
 import esriConfig from "@arcgis/core/config";
 import Map from "@arcgis/core/Map";
 import MapView from "@arcgis/core/views/MapView";
@@ -338,43 +339,55 @@ export default {
         "AAPKfe0695aa5c18433e899f8170f7fb03d5LJ9EfdgSvRhqZaT2Ldm4cCPMrHxGha7GztsZ_hVGZ6BK5HOdGt5CxAqTWO71Qlmg";
 
       // Add a map to the view
-      this.map = new Map({
-        basemap: "arcgis-imagery",
-      });
+      // markRaw keeps ArcGIS Accessor objects out of Vue's reactivity proxy,
+      // which would otherwise break their internal __accessor__ handling.
+      this.map = markRaw(
+        new Map({
+          basemap: "arcgis-imagery",
+        })
+      );
       /* eslint-disable no-unused-vars */
-      this.view = new MapView({
-        container: "viewDiv",
-        map: this.map,
-        center: [-103.780928, 44.00853],
-        zoom: 9,
-      });
+      this.view = markRaw(
+        new MapView({
+          container: "viewDiv",
+          map: this.map,
+          center: [-103.780928, 44.00853],
+          zoom: 9,
+        })
+      );
       /* eslint-enable no-unused-vars */
 
-      this.nfsmvum = new GeoJSONLayer({
-        url: "./nfsmvum.geojson",
-        outFields: ["*"], // Return all fields so it can be queried client-side
-        opacity: 0.5,
-        renderer: this.roadRender,
-      });
-      this.snowDepth = new MapImageLayer({
-        opacity: 0.5,
-        url: "https://mapservices.weather.noaa.gov/raster/rest/services/snow/NOHRSC_Snow_Analysis/MapServer",
-      });
+      this.nfsmvum = markRaw(
+        new GeoJSONLayer({
+          url: "./nfsmvum.geojson",
+          outFields: ["*"], // Return all fields so it can be queried client-side
+          opacity: 0.5,
+          renderer: this.roadRender,
+        })
+      );
+      this.snowDepth = markRaw(
+        new MapImageLayer({
+          opacity: 0.5,
+          url: "https://mapservices.weather.noaa.gov/raster/rest/services/snow/NOHRSC_Snow_Analysis/MapServer",
+        })
+      );
 
-      this.minesLayer = new GeoJSONLayer({
-        url: "./mines.geojson",
-        outFields: ["*"], // Return all fields so it can be queried client-side
-        popupTemplate: this.createPopupTemplate(),
-        renderer: {
-          type: "unique-value",
-          field: "Collapsed",
-          defaultSymbol: this.createCustomMarkerSymbol(null), // Default symbol for null
-          uniqueValueInfos: [
-            { value: "true", symbol: this.createCustomMarkerSymbol(true) }, // Red for true
-            { value: "false", symbol: this.createCustomMarkerSymbol(false) }, // Green for false
-          ],
-        },
-      });
+      this.minesLayer = markRaw(
+        new GeoJSONLayer({
+          url: "./mines.geojson",
+          outFields: ["*"], // Return all fields so it can be queried client-side
+          popupTemplate: this.createPopupTemplate(),
+          renderer: {
+            type: "unique-value",
+            field: "Collapsed",
+            defaultSymbol: this.createCustomMarkerSymbol(null), // Default symbol for null
+            uniqueValueInfos: [
+              { value: "true", symbol: this.createCustomMarkerSymbol(true) }, // Red for true
+              { value: "false", symbol: this.createCustomMarkerSymbol(false) }, // Green for false
+            ],
+          },
+        })
+      );
 
       const point = new Point({
         x: -103.19455082423462,
@@ -396,20 +409,26 @@ export default {
         geometry: point,
         symbol: symbolMarker,
       });
-      this.graphicLayer = new GraphicsLayer({
-        graphics: [graphicPoint],
-        opacity: 0.5,
-      });
+      this.graphicLayer = markRaw(
+        new GraphicsLayer({
+          graphics: [graphicPoint],
+          opacity: 0.5,
+        })
+      );
 
-      this.gfp = new VectorTileLayer({
-        opacity: 0.5,
-        url: "https://tiles.arcgis.com/tiles/jWPBXspaQsJStWX8/arcgis/rest/services/Public_Lands/VectorTileServer",
-      });
+      this.gfp = markRaw(
+        new VectorTileLayer({
+          opacity: 0.5,
+          url: "https://tiles.arcgis.com/tiles/jWPBXspaQsJStWX8/arcgis/rest/services/Public_Lands/VectorTileServer",
+        })
+      );
 
-      this.harvestLocations = new GeoJSONLayer({
-        url: "./harvestLocations.geojson",
-        renderer: this.showHeatmap ? this.renderer : this.simplerRenderer,
-      });
+      this.harvestLocations = markRaw(
+        new GeoJSONLayer({
+          url: "./harvestLocations.geojson",
+          renderer: this.showHeatmap ? this.renderer : this.simplerRenderer,
+        })
+      );
 
       if (localStorage.getItem("showGfp")) {
         this.showGfp = JSON.parse(localStorage.getItem("showGfp"));
@@ -996,10 +1015,12 @@ export default {
           geometry: point,
           symbol: symbolMarker,
         });
-        this.graphicLayer = new GraphicsLayer({
-          graphics: [graphicPoint],
-          opacity: 0.5,
-        });
+        this.graphicLayer = markRaw(
+          new GraphicsLayer({
+            graphics: [graphicPoint],
+            opacity: 0.5,
+          })
+        );
         this.map.add(this.graphicLayer);
         return true;
       } else {

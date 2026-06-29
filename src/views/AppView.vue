@@ -18,7 +18,8 @@
 
 <script setup>
   import MapView from '@/components/Map.vue'
-  import logo from '@/assets/mtl.png'
+
+  const logo = '/img/brand-logo.png'
 </script>
 
 <style scoped>
@@ -66,11 +67,9 @@
   }
 
   .appbar__logo {
-    height: 26px;
+    height: 36px;
     width: auto;
     object-fit: contain;
-    /* mtl.png is a black silhouette; tint it white so it reads on the dark bar */
-    filter: brightness(0) invert(1);
   }
 
   .appbar__name {

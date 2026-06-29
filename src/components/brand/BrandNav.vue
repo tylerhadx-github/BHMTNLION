@@ -25,8 +25,8 @@
 
 <script setup>
   import { onMounted, onBeforeUnmount, ref } from 'vue'
-  import logo from '@/assets/mtl.png'
 
+  const logo = '/img/brand-logo.png'
   const scrolled = ref(false)
 
   const links = [
@@ -96,11 +96,10 @@
   }
 
   .nav__logo {
-    height: 30px;
+    height: 44px;
     width: auto;
     object-fit: contain;
-    /* mtl.png is a black silhouette; tint it white so it reads on the dark nav */
-    filter: brightness(0) invert(1) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.45));
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.45));
   }
 
   .nav__brandtext {
