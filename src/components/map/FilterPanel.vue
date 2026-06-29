@@ -33,7 +33,7 @@
           label="Snow Depth (live)"
         />
 
-        <div class="filter-row">
+        <div class="filter-stack">
           <v-switch
             v-model="showCachedSnowDepth"
             color="primary"
@@ -41,7 +41,9 @@
             hide-details
             label="Cached Snow Depth"
           />
-          <span v-if="snowDepthDate" class="filter-row__meta">{{ snowDepthDate }}</span>
+          <span v-if="cachedDateLabel" class="filter-caption">
+            As of {{ cachedDateLabel }}
+          </span>
         </div>
 
         <div class="filter-row">
@@ -153,13 +155,22 @@
 </template>
 
 <script setup>
-  defineProps({
+  import { computed } from 'vue'
+
+  const props = defineProps({
     years: { type: Array, default: () => [] },
     snowDepthDate: { type: [String, Number, Object], default: null },
     legendUrl: { type: String, default: '' },
   })
 
   defineEmits(['reset', 'export-onx', 'close'])
+
+  const cachedDateLabel = computed(() => {
+    const value = props.snowDepthDate
+    if (!value) return ''
+    const date = new Date(value)
+    return Number.isNaN(date.getTime()) ? String(value) : date.toLocaleDateString()
+  })
 
   const showGfp = defineModel('showGfp', { type: Boolean, default: false })
   const showSnowDepth = defineModel('showSnowDepth', { type: Boolean, default: false })
@@ -224,14 +235,25 @@
     gap: 0.75rem;
   }
 
-  .filter-row__meta {
-    font-size: 0.78rem;
+  .filter-row > :deep(.v-switch) {
+    flex: 0 1 auto;
+    min-width: 0;
+  }
+
+  .filter-stack {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .filter-caption {
+    margin: -0.45rem 0 0.35rem 3.1rem;
+    font-size: 0.74rem;
     color: #a7a7b4;
-    white-space: nowrap;
   }
 
   .filter-row__date {
     margin-left: auto;
+    flex: 0 0 auto;
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 8px;
