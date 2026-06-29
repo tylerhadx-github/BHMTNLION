@@ -24,13 +24,16 @@
 
 <style scoped>
   .appshell {
-    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
     background: #0b0b10;
+    overflow: hidden;
   }
 
   .appbar {
-    position: sticky;
-    top: 0;
+    flex: 0 0 auto;
     z-index: 50;
     background: rgba(11, 11, 16, 0.78);
     backdrop-filter: blur(14px);
@@ -45,6 +48,12 @@
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
+  }
+
+  .appshell__body {
+    flex: 1 1 auto;
+    position: relative;
+    min-height: 0;
   }
 
   .appbar__back {

@@ -1,152 +1,95 @@
 <template>
-  <div>
-    <v-container fluid>
-      <v-row>
-        <v-col>
-          <v-card>
-            <v-card-title class="d-flex align-center">
-              <span class="text-h6">Map Filters</span>
-              <v-spacer></v-spacer>
-              <v-btn @click="expand = !expand">{{ btnname }}</v-btn>
-            </v-card-title>
-            <v-card-text v-if="expand">
-              <v-switch
-                v-model="showGfp"
-                color="primary"
-                density="compact"
-                hide-details
-                :label="`GFP`"
-              ></v-switch>
-              <v-row>
-                <v-col>
-                  <v-switch
-                    v-model="showSnowDepth"
-                    color="primary"
-                    density="compact"
-                    hide-details
-                    :label="`Snow Depth`"
-                  ></v-switch>
-                </v-col>
-                <v-col>
-                  <v-btn @click="showImage = !showImage">Snow Depth Chart</v-btn>
-                  <div v-if="showImage">
-                    <img :src="legendUrl" alt="Snow Depth Map" />
-                  </div>
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <v-switch
-                    v-model="showCachedSnowDepth"
-                    color="primary"
-                    density="compact"
-                    hide-details
-                    :label="`Cached Snow Depth`"
-                  ></v-switch>
-                </v-col>
-                <v-col>
-                  {{ snowDepthDate }}
-                </v-col>
-              </v-row>
-              <v-row>
-                <v-col>
-                  <v-switch
-                    v-model="showNfsmvum"
-                    color="primary"
-                    density="compact"
-                    hide-details
-                    :label="`Road Map`"
-                  ></v-switch>
-                </v-col>
-                <v-col class="pt-4 mt-4">
-                  <input
-                    type="date"
-                    id="date-picker"
-                    :disabled="!showNfsmvum"
-                  />
-                </v-col>
-                <v-col></v-col>
-              </v-row>
-              <v-row>
-                <v-col cols="6" sm="4">
-                  <v-switch
-                    v-model="showHarvestLocations"
-                    color="primary"
-                    density="compact"
-                    hide-details
-                    :label="`Harvest Locations`"
-                  ></v-switch>
-                </v-col>
-                <v-col cols="6" sm="4">
-                  <v-switch
-                    v-if="showHarvestLocations"
-                    v-model="showHeatmap"
-                    color="primary"
-                    density="compact"
-                    hide-details
-                    label="Heatmap"
-                  ></v-switch>
-                </v-col>
-                <v-col cols="12" sm="4">
-                  <v-autocomplete
-                    v-if="showHarvestLocations"
-                    v-model="selectedYears"
-                    :items="years"
-                    multiple
-                    density="compact"
-                    hide-details
-                    label="Years"
-                  ></v-autocomplete>
-                </v-col>
-                <v-col cols="12" sm="4">
-                  <v-switch
-                    v-model="showMines"
-                    color="primary"
-                    density="compact"
-                    hide-details
-                    label="Mines"
-                  ></v-switch>
-                  <v-btn @click="exportToONX">Export For Onx</v-btn>
-                  <div v-if="showMines">
-                    <v-col cols="3">
-                      <div
-                        class="legend-dot"
-                        style="background-color: orange"
-                      ></div>
-                    </v-col>
-                    <v-col cols="9">Unknown</v-col>
-                  </div>
-                  <div v-if="showMines">
-                    <v-col cols="3">
-                      <div
-                        class="legend-dot"
-                        style="background-color: green"
-                      ></div>
-                    </v-col>
-                    <v-col cols="9">Open</v-col>
-                  </div>
-                  <div v-if="showMines">
-                    <v-col cols="3">
-                      <div
-                        class="legend-dot"
-                        style="background-color: red"
-                      ></div>
-                    </v-col>
-                    <v-col cols="9">Collapsed</v-col>
-                  </div>
-                </v-col>
-              </v-row>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
+  <div class="map-stage">
+    <div id="viewDiv" class="map-stage__view"></div>
 
-    <v-progress-linear indeterminate v-if="loading"></v-progress-linear>
-    <div
-      id="viewDiv"
-      style="align-content: center; height: 80vh; width: 100%"
-    ></div>
+    <v-progress-linear
+      v-if="loading"
+      indeterminate
+      color="primary"
+      class="map-stage__loading"
+    ></v-progress-linear>
+
+    <!-- Top overlay: Filters toggle + active filter chips -->
+    <div class="map-stage__top">
+      <v-btn
+        class="map-stage__filters-btn"
+        color="primary"
+        rounded="pill"
+        prepend-icon="mdi-tune-variant"
+        :aria-label="panelOpen ? 'Close filters' : 'Open filters'"
+        @click="panelOpen = !panelOpen"
+      >
+        Filters
+        <v-badge
+          v-if="activeFilterCount"
+          inline
+          color="surface-variant"
+          :content="activeFilterCount"
+          class="map-stage__filters-badge"
+        ></v-badge>
+      </v-btn>
+
+      <ActiveFilterChips
+        class="map-stage__chips"
+        :chips="activeChips"
+        @remove="onRemoveChip"
+      />
+    </div>
+
+    <!-- Desktop: floating, non-modal panel (kept mounted, shown via v-show) -->
+    <transition name="panel-pop">
+      <div
+        v-if="!isMobileLayout"
+        v-show="panelOpen"
+        class="map-stage__panel"
+      >
+        <FilterPanel
+          v-model:show-gfp="showGfp"
+          v-model:show-snow-depth="showSnowDepth"
+          v-model:show-cached-snow-depth="showCachedSnowDepth"
+          v-model:show-nfsmvum="showNfsmvum"
+          v-model:show-mines="showMines"
+          v-model:show-harvest-locations="showHarvestLocations"
+          v-model:show-heatmap="showHeatmap"
+          v-model:show-image="showImage"
+          v-model:selected-years="selectedYears"
+          :years="years"
+          :snow-depth-date="snowDepthDate"
+          :legend-url="legendUrl"
+          @reset="resetFilters"
+          @export-onx="exportToONX"
+          @close="panelOpen = false"
+        />
+      </div>
+    </transition>
+
+    <!-- Mobile: bottom sheet drawer -->
+    <v-navigation-drawer
+      v-if="isMobileLayout"
+      v-model="panelOpen"
+      location="bottom"
+      temporary
+      :scrim="true"
+      class="map-stage__sheet"
+    >
+      <FilterPanel
+        v-model:show-gfp="showGfp"
+        v-model:show-snow-depth="showSnowDepth"
+        v-model:show-cached-snow-depth="showCachedSnowDepth"
+        v-model:show-nfsmvum="showNfsmvum"
+        v-model:show-mines="showMines"
+        v-model:show-harvest-locations="showHarvestLocations"
+        v-model:show-heatmap="showHeatmap"
+        v-model:show-image="showImage"
+        v-model:selected-years="selectedYears"
+        :years="years"
+        :snow-depth-date="snowDepthDate"
+        :legend-url="legendUrl"
+        @reset="resetFilters"
+        @export-onx="exportToONX"
+        @close="panelOpen = false"
+      />
+    </v-navigation-drawer>
   </div>
 </template>
 
@@ -167,6 +110,8 @@ import BasemapGallery from "@arcgis/core/widgets/BasemapGallery";
 import Locate from "@arcgis/core/widgets/Locate";
 import GeoJSONLayer from "@arcgis/core/layers/GeoJSONLayer";
 import togpx from 'togpx';
+import FilterPanel from "@/components/map/FilterPanel.vue";
+import ActiveFilterChips from "@/components/map/ActiveFilterChips.vue";
 
 const gravel = {
   type: "simple-line", // autocasts as new SimpleLineSymbol()
@@ -197,7 +142,7 @@ const dirtForCar = {
 };
 
 export default {
-  components: {},
+  components: { FilterPanel, ActiveFilterChips },
   name: "Map",
   props: {},
   data: function () {
@@ -205,8 +150,8 @@ export default {
       legendUrl: import.meta.env.BASE_URL + "Legend.png",
       showImage: false,
       //roadDate: new Date(),
-      expand: localStorage.getItem("expand")
-        ? JSON.parse(localStorage.getItem("expand"))
+      panelOpen: localStorage.getItem("panelOpen")
+        ? JSON.parse(localStorage.getItem("panelOpen"))
         : true,
       showMines: true,
       map: null,
@@ -332,6 +277,20 @@ export default {
     this.cacheSnowDepth();
   },
   methods: {
+    resetFilters() {
+      this.showGfp = true;
+      this.showSnowDepth = true;
+      this.showCachedSnowDepth = true;
+      this.showNfsmvum = true;
+      this.showHarvestLocations = true;
+      this.showHeatmap = false;
+      this.showMines = true;
+      this.showImage = false;
+      this.selectedYears = [...this.years];
+    },
+    onRemoveChip(key) {
+      this[key] = false;
+    },
     LoadData() {
       var component = this;
 
@@ -341,9 +300,12 @@ export default {
       // Add a map to the view
       // markRaw keeps ArcGIS Accessor objects out of Vue's reactivity proxy,
       // which would otherwise break their internal __accessor__ handling.
+      // "satellite" is the keyless Esri imagery basemap; "arcgis-imagery"
+      // routes through the v2 basemap-styles service and needs an API key
+      // whose referrer allowlist must include this domain, so it failed here.
       this.map = markRaw(
         new Map({
-          basemap: "arcgis-imagery",
+          basemap: "satellite",
         })
       );
       /* eslint-disable no-unused-vars */
@@ -509,8 +471,10 @@ export default {
         popupOpenOnSelect: false,
       });
 
+      // Keep the top-left clear for the floating Filters panel/button.
+      this.view.ui.move("zoom", "bottom-right");
       this.view.ui.add(locateBtn, {
-        position: "top-left",
+        position: "bottom-right",
       });
       this.view.ui.add(searchWidget, {
         position: "top-right",
@@ -1048,18 +1012,46 @@ export default {
       buildcsv += ")";
       this.harvestLocations.definitionExpression = buildcsv; // "( Year in (" + buildcsv.substring(0,buildcsv.length -1)+ ")";
     },
-    expand() {
-      localStorage.setItem("expand", JSON.stringify(this.expand));
+    panelOpen() {
+      localStorage.setItem("panelOpen", JSON.stringify(this.panelOpen));
     },
     roadOpenings() {},
   },
   computed: {
-    btnname: function () {
-      if (this.expand) {
-        return "Collapse";
-      } else {
-        return "Expand";
+    isMobileLayout() {
+      return this.$vuetify.display.mobile;
+    },
+    activeFilterCount() {
+      return [
+        this.showGfp,
+        this.showSnowDepth,
+        this.showCachedSnowDepth,
+        this.showNfsmvum,
+        this.showHarvestLocations,
+        this.showHeatmap,
+        this.showMines,
+      ].filter(Boolean).length;
+    },
+    activeChips() {
+      const chips = [];
+      if (this.showGfp) chips.push({ key: "showGfp", label: "GFP" });
+      if (this.showSnowDepth)
+        chips.push({ key: "showSnowDepth", label: "Snow Depth" });
+      if (this.showCachedSnowDepth)
+        chips.push({ key: "showCachedSnowDepth", label: "Cached Snow" });
+      if (this.showNfsmvum)
+        chips.push({ key: "showNfsmvum", label: "Roads" });
+      if (this.showHarvestLocations) {
+        const yrs = this.selectedYears ? this.selectedYears.length : 0;
+        chips.push({
+          key: "showHarvestLocations",
+          label: yrs ? `Harvest \u00b7 ${yrs} yrs` : "Harvest",
+        });
       }
+      if (this.showHeatmap)
+        chips.push({ key: "showHeatmap", label: "Heatmap" });
+      if (this.showMines) chips.push({ key: "showMines", label: "Mines" });
+      return chips;
     },
   },
 };
@@ -1067,10 +1059,100 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.legend-dot {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  margin-right: 10px;
+.map-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  background: #0b0b10;
+}
+
+.map-stage__view {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.map-stage__loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+}
+
+.map-stage__top {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 64px;
+  z-index: 15;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  pointer-events: none;
+}
+
+.map-stage__top > * {
+  pointer-events: auto;
+}
+
+.map-stage__filters-btn {
+  flex: 0 0 auto;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+
+.map-stage__filters-badge {
+  margin-left: 0.15rem;
+}
+
+.map-stage__chips {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-top: 0.25rem;
+}
+
+.map-stage__panel {
+  position: absolute;
+  top: 64px;
+  left: 12px;
+  z-index: 16;
+  width: 340px;
+  max-width: calc(100vw - 24px);
+  max-height: calc(100% - 80px);
+  display: flex;
+  flex-direction: column;
+  background: rgba(17, 17, 24, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(16px);
+}
+
+/* Bottom sheet (mobile) */
+.map-stage__sheet :deep(.v-navigation-drawer__content) {
+  background: rgba(17, 17, 24, 0.96);
+  backdrop-filter: blur(16px);
+}
+
+/* Panel transition */
+.panel-pop-enter-active,
+.panel-pop-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.panel-pop-enter-from,
+.panel-pop-leave-to {
+  opacity: 0;
+  transform: translateY(-8px) scale(0.98);
+}
+
+@media (max-width: 600px) {
+  .map-stage__top {
+    right: 12px;
+    flex-wrap: wrap;
+  }
 }
 </style>
